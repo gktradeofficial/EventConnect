@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Package - EventConnect</title>
+
+</head>
+
+<body>
+
+    <h1>Edit Package</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Package Name</label>
+        <br>
+
+        <input
+            type="text"
+            name="name"
+            value="{{ package.name }}"
+            required
+        >
+
+        <br><br>
+
+        <label>Description</label>
+        <br>
+
+        <textarea
+            name="description"
+            rows="5"
+        >{{ package.description }}</textarea>
+
+        <br><br>
+
+        <label>Price</label>
+        <br>
+
+        <input
+            type="number"
+            name="price"
+            value="{{ package.price }}"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+        <label>
+
+            <input
+                type="checkbox"
+                name="is_active"
+                {% if package.is_active %}checked{% endif %}
+            >
+
+            Active Package
+
+        </label>
+
+        <br><br>
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'professional_dashboard' %}">
+        ← Back to Dashboard
+    </a>
+
+</body>
+
+</html>

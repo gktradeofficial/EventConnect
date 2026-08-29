@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Service - EventConnect</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #111827;
+        }
+
+        header {
+            background: #111827;
+            padding: 18px 7%;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,.08);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #f59e0b;
+            color: #111827;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Event<span>Connect</span>
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>
+            Add a Service
+        </h1>
+
+        <p class="subtitle">
+            Add a service that you provide to customers.
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                Select Service
+            </label>
+
+            <select name="service" required>
+
+                <option value="">
+                    -- Select a Service --
+                </option>
+
+                {% for service in services %}
+
+                <option value="{{ service.id }}">
+
+                    {{ service.category.name }}
+                    —
+                    {{ service.name }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label>
+                Starting Price (₹)
+            </label>
+
+            <input
+                type="number"
+                name="starting_price"
+                min="0"
+                step="0.01"
+                placeholder="Example: 15000"
+                required
+            >
+
+
+            <button type="submit">
+                Add Service
+            </button>
+
+        </form>
+
+
+        <a
+            href="/professionals/dashboard/"
+            class="back"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

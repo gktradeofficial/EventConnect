@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Join EventConnect</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f5f7;
+            color: #111827;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 35px;
+        }
+
+        .role-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .role {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .role:hover {
+            border-color: #f59e0b;
+        }
+
+        .role input {
+            margin-right: 8px;
+        }
+
+        .role strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .role small {
+            color: #6b7280;
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin: 25px 0 18px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #f59e0b;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .professional-section {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #f59e0b;
+            color: #111827;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #d97706;
+            color: white;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+        }
+
+        .login a {
+            color: #d97706;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .errors {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media(max-width: 650px) {
+
+            .card {
+                padding: 25px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .role-box {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="logo">
+            Event<span>Connect</span>
+        </div>
+
+        <p class="subtitle">
+            Connect with the right people for your event
+        </p>
+
+
+        {% if form.errors %}
+
+        <div class="errors">
+
+            Please correct the errors below.
+
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <h2 class="section-title">
+                Choose Account Type
+            </h2>
+
+
+            <div class="role-box">
+
+                <label class="role">
+
+                    <input
+                        type="radio"
+                        name="role"
+                        value="customer"
+                        checked
+                    >
+
+                    <strong>👤 Customer</strong>
+
+                    <small>
+                        I need professionals for my event
+                    </small>
+
+                </label>
+
+
+                <label class="role">
+
+                    <input
+                        type="radio"
+                        name="role"
+                        value="professional"
+                    >
+
+                    <strong>📸 Professional</strong>
+
+                    <small>
+                        I want to offer my services
+                    </small>
+
+                </label>
+
+            </div>
+
+
+            <h2 class="section-title">
+                Account Information
+            </h2>
+
+
+            <div class="form-grid">
+
+                <div class="field">
+
+                    <label>Username</label>
+
+                    {{ form.username }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Email</label>
+
+                    {{ form.email }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Password</label>
+
+                    {{ form.password }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Confirm Password</label>
+
+                    {{ form.password_confirm }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Phone</label>
+
+                    {{ form.phone }}
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Location</label>
+
+                    {{ form.location }}
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="professional-section"
+                id="professionalSection"
+            >
+
+                <h2 class="section-title">
+                    Professional Details
+                </h2>
+
+
+                <div class="form-grid">
+
+                    <div class="field full">
+
+                        <label>
+                            Business / Brand Name
+                        </label>
+
+                        {{ form.business_name }}
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Service
+                        </label>
+
+                        {{ form.service }}
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Experience (Years)
+                        </label>
+
+                        {{ form.experience_years }}
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Starting Price (₹)
+                        </label>
+
+                        {{ form.starting_price }}
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Service Area
+                        </label>
+
+                        {{ form.service_area }}
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            About Your Business
+                        </label>
+
+                        {{ form.description }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+                Create Account
+            </button>
+
+
+            <div class="login">
+
+                Already have an account?
+
+                <a href="/accounts/login/">
+                    Login
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const roles =
+        document.querySelectorAll(
+            'input[name="role"]'
+        );
+
+    const professionalSection =
+        document.getElementById(
+            'professionalSection'
+        );
+
+
+    function updateForm() {
+
+        const selected =
+            document.querySelector(
+                'input[name="role"]:checked'
+            );
+
+        if (
+            selected &&
+            selected.value === 'professional'
+        ) {
+
+            professionalSection.style.display =
+                'block';
+
+        } else {
+
+            professionalSection.style.display =
+                'none';
+
+        }
+
+    }
+
+
+    roles.forEach(function(role) {
+
+        role.addEventListener(
+            'change',
+            updateForm
+        );
+
+    });
+
+
+    updateForm();
+
+</script>
+
+</body>
+</html>

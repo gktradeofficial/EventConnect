@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Contact {{ provider.business_name }} - EventConnect
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #111827;
+        }
+
+        header {
+            background: #111827;
+            padding: 18px 7%;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #374151;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.07);
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #f59e0b;
+            color: #111827;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: .9;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Event<span>Connect</span>
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <a
+        href="/professionals/{{ provider.id }}/"
+        class="back"
+    >
+        ← Back to Profile
+    </a>
+
+
+    <div class="card">
+
+        <h1>
+            Contact {{ provider.business_name }}
+        </h1>
+
+        <p class="subtitle">
+            Send your event details to this professional.
+        </p>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                Event Type
+            </label>
+
+            <select name="event_type" required>
+
+                <option value="">
+                    Select Event Type
+                </option>
+
+                <option value="wedding">
+                    Wedding
+                </option>
+
+                <option value="birthday">
+                    Birthday
+                </option>
+
+                <option value="corporate">
+                    Corporate Event
+                </option>
+
+                <option value="engagement">
+                    Engagement
+                </option>
+
+                <option value="other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label>
+                Event Date
+            </label>
+
+            <input
+                type="date"
+                name="event_date"
+            >
+
+
+            <label>
+                Event Location
+            </label>
+
+            <input
+                type="text"
+                name="event_location"
+                placeholder="Example: Kolkata"
+                required
+            >
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                name="phone"
+                placeholder="Your phone number"
+                required
+            >
+
+
+            <label>
+                Message
+            </label>
+
+            <textarea
+                name="message"
+                placeholder="Tell the professional about your event..."
+                required
+            ></textarea>
+
+
+            <button type="submit">
+                Send Enquiry
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

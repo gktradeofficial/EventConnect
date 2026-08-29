@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EventConnect - Find Event Professionals</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 15px;
+        }
+
+        .btn {
+            background: #f59e0b;
+            color: #111827 !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 520px;
+            background:
+                linear-gradient(
+                    rgba(17, 24, 39, 0.82),
+                    rgba(17, 24, 39, 0.82)
+                ),
+                url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            color: white;
+            padding: 50px 20px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #e5e7eb;
+            margin-bottom: 35px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+
+            display: flex;
+            gap: 10px;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .search-box input,
+        .search-box select {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 15px;
+            font-size: 15px;
+            color: #374151;
+        }
+
+        .search-btn {
+            background: #f59e0b;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .section {
+            padding: 70px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #6b7280;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .category h3 {
+            margin-bottom: 8px;
+        }
+
+        .category p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .features {
+            background: #111827;
+            color: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature p {
+            color: #d1d5db;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .professional-cta {
+            background: white;
+            margin: 60px 7%;
+            padding: 55px;
+            border-radius: 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        .professional-cta h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .professional-cta p {
+            color: #6b7280;
+        }
+
+        footer {
+            background: #0b1120;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .professional-cta {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            nav a:not(.btn) {
+                display: none;
+            }
+
+            .categories {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Event<span>Connect</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/professionals/">
+            Find Professionals
+        </a>
+
+        {% if user.is_authenticated %}
+
+            {% if user.provider_profile %}
+
+                <a href="/professionals/dashboard/">
+                    Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="/accounts/dashboard/">
+                    Dashboard
+                </a>
+
+            {% endif %}
+
+            <a href="/accounts/logout/">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="/accounts/login/">
+                Login
+            </a>
+
+            <a href="/accounts/register/" class="btn">
+                Join Now
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Find the Perfect Professionals
+            for Your Event
+        </h1>
+
+        <p>
+            Connect with photographers, videographers,
+            editors and event professionals.
+        </p>
+
+        <div class="search-box">
+
+            <select>
+                <option>Select Service</option>
+                <option>Photographer</option>
+                <option>Videographer</option>
+                <option>Video Editor</option>
+                <option>Event Planner</option>
+                <option>Decorator</option>
+                <option>Makeup Artist</option>
+                <option>DJ</option>
+            </select>
+
+            <input
+                type="text"
+                placeholder="Enter location"
+            >
+
+            <button class="search-btn">
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>Explore Services</h2>
+
+        <p>
+            Find trusted professionals for every type of event.
+        </p>
+
+    </div>
+
+
+    <div class="categories">
+
+        <div class="category">
+            <div class="category-icon">📸</div>
+            <h3>Photographer</h3>
+            <p>Capture your special moments.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">🎥</div>
+            <h3>Videographer</h3>
+            <p>Create beautiful event films.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">✂️</div>
+            <h3>Video Editor</h3>
+            <p>Turn footage into amazing stories.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">🎨</div>
+            <h3>Event Planner</h3>
+            <p>Plan and organize your event.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">🌸</div>
+            <h3>Decorator</h3>
+            <p>Make your venue beautiful.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">💄</div>
+            <h3>Makeup Artist</h3>
+            <p>Professional event makeup.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">🎧</div>
+            <h3>DJ</h3>
+            <p>Bring energy to your celebration.</p>
+        </div>
+
+
+        <div class="category">
+            <div class="category-icon">🚁</div>
+            <h3>Drone Operator</h3>
+            <p>Aerial photography and video.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section features">
+
+    <div class="section-title">
+
+        <h2>Why EventConnect?</h2>
+
+        <p>
+            Everything you need to find the right professional.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature">
+
+            <div class="feature-icon">✓</div>
+
+            <h3>Verified Professionals</h3>
+
+            <p>
+                Discover trusted event professionals.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">🔎</div>
+
+            <h3>Easy Search</h3>
+
+            <p>
+                Find professionals based on service and location.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">💬</div>
+
+            <h3>Direct Communication</h3>
+
+            <p>
+                Talk directly with professionals.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">⭐</div>
+
+            <h3>Reviews</h3>
+
+            <p>
+                Compare ratings and customer experiences.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="professional-cta">
+
+    <div>
+
+        <h2>Are you an Event Professional?</h2>
+
+        <p>
+            Showcase your work and connect with new customers.
+        </p>
+
+    </div>
+
+    <a
+        href="/accounts/register/" class="btn">
+        Join Now
+    
+    </a>
+
+</section>
+
+
+<footer>
+
+    <div class="logo">
+        Event<span>Connect</span>
+    </div>
+
+    <br>
+
+    <p>
+        Connecting customers with trusted event professionals.
+    </p>
+
+    <br>
+
+    <p>
+        © 2026 EventConnect. All rights reserved.
+    </p>
+
+</footer>
+
+</body>
+</html>

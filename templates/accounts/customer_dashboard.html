@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Customer Dashboard - EventConnect</title>
+
+</head>
+
+<body>
+
+    <h1>My Dashboard</h1>
+
+    <h2>My Enquiries</h2>
+
+    {% for enquiry in enquiries %}
+
+        <div>
+
+            <h3>
+                {{ enquiry.provider.business_name }}
+            </h3>
+
+            <p>
+                Event:
+                {{ enquiry.get_event_type_display }}
+            </p>
+
+            <p>
+                Date:
+                {{ enquiry.event_date|default:"Not specified" }}
+            </p>
+
+            <p>
+                Location:
+                {{ enquiry.event_location }}
+            </p>
+
+            <p>
+                Phone:
+                {{ enquiry.phone }}
+            </p>
+
+            <p>
+                Message:
+                {{ enquiry.message }}
+            </p>
+
+            <p>
+                {% if enquiry.is_read %}
+                    ✓ Read
+                {% else %}
+                    ● Pending
+                {% endif %}
+            </p>
+
+            <hr>
+
+        </div>
+
+    {% empty %}
+
+        <p>
+            You have not sent any enquiries yet.
+        </p>
+
+    {% endfor %}
+
+    <br>
+
+    <a href="/">
+        ← Back to Home
+    </a>
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Enquiry Sent - EventConnect</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #f5f6f8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        .success {
+            font-size: 55px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 13px 25px;
+            background: #111827;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="success">
+            ✅
+        </div>
+
+        <h1>
+            Enquiry Sent Successfully!
+        </h1>
+
+        <p>
+            Your enquiry has been sent to
+            <strong>
+                {{ provider.business_name }}
+            </strong>.
+        </p>
+
+        <p>
+            The professional can now contact you
+            regarding your event.
+        </p>
+
+        <a href="/">
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

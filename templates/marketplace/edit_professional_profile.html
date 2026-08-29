@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Edit Professional Profile</title>
+
+</head>
+
+<body>
+
+    <h1>Edit Professional Profile</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label>Business Name</label>
+        <br>
+        <input
+            type="text"
+            name="business_name"
+            value="{{ provider.business_name }}"
+            required
+        >
+
+        <br><br>
+
+        <label>Description</label>
+        <br>
+        <textarea
+            name="description"
+            rows="5"
+        >{{ provider.description }}</textarea>
+
+        <br><br>
+
+        <label>Location</label>
+        <br>
+        <input
+            type="text"
+            name="location"
+            value="{{ provider.location }}"
+            required
+        >
+
+        <br><br>
+
+        <label>Service Area</label>
+        <br>
+        <input
+            type="text"
+            name="service_area"
+            value="{{ provider.service_area }}"
+        >
+
+        <br><br>
+
+        <label>Experience (Years)</label>
+        <br>
+        <input
+            type="number"
+            name="experience_years"
+            value="{{ provider.experience_years }}"
+            min="0"
+        >
+
+        <br><br>
+
+        <label>Profile Photo</label>
+        <br>
+
+        {% if provider.profile_image %}
+            <img
+                src="{{ provider.profile_image.url }}"
+                width="120"
+            >
+            <br><br>
+        {% endif %}
+
+        <input
+            type="file"
+            name="profile_image"
+            accept="image/*"
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'professional_dashboard' %}">
+        ← Back to Dashboard
+    </a>
+
+</body>
+</html>

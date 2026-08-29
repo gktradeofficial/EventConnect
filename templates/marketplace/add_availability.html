@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Manage Availability</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f5f6f8;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #f59e0b;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📅 Availability</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Date</label>
+
+        <input
+            type="date"
+            name="date"
+            required
+        >
+
+        <label>Status</label>
+
+        <select name="is_available">
+
+            <option value="true">
+                Available
+            </option>
+
+            <option value="false">
+                Not Available
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Save Availability
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ provider.business_name }} - EventConnect
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6f8;
+            color: #111827;
+        }
+
+        header {
+            background: #111827;
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f59e0b;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .btn {
+            background: #f59e0b;
+            color: #111827 !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #111827, #1f2937);
+            color: white;
+            padding: 65px 7%;
+        }
+
+        .profile-header-inner {
+            max-width: 1100px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .professional-profile-image {
+            width: 190px;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #f59e0b;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+        }
+
+        .professional-profile-placeholder {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: #374151;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 70px;
+            border: 5px solid #f59e0b;
+        }
+
+        .profile-info h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .verified {
+            display: inline-block;
+            background: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .location {
+            color: #d1d5db;
+            margin-bottom: 10px;
+        }
+
+        .experience {
+            color: #e5e7eb;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .about {
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .service-item {
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .service-item h3 {
+            margin-bottom: 7px;
+        }
+
+        .price {
+            color: #d97706;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;                      
+        }
+
+        .portfolio-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .portfolio-card h3,
+        .portfolio-card p {
+            padding: 0 15px;
+        }
+
+        .portfolio-item {
+            height: 150px;
+            background: #e5e7eb;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 45px;
+        }
+
+        .contact-card {
+            position: sticky;
+            top: 20px;
+        }
+
+        .contact-card h2 {
+            font-size: 22px;
+        }
+
+        .contact-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            width: 100%;
+            display: block;
+
+            text-align: center;
+
+            background: #f59e0b;
+            color: #111827;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+
+            color: #374151;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media(max-width: 800px) {
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info h1 {
+                font-size: 30px;
+            }
+
+            .portfolio {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-card {
+                position: static;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        Event<span>Connect</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/professionals/">
+            Find Professionals
+        </a>
+
+        <a href="/accounts/login/">
+            Login
+        </a>
+
+    </nav>
+
+</header>
+
+
+<section class="profile-header">
+
+    <div class="profile-header-inner">
+
+
+        <div class="profile-info">
+
+            {% if provider.profile_image %}
+
+                <img
+                    src="{{ provider.profile_image.url }}"
+                    alt="{{ provider.business_name }}"
+                    class="professional-profile-image"
+                >
+
+            {% else %}
+
+                <div class="professional-profile-placeholder">
+                    👤
+                </div>
+
+            {% endif %}
+
+            <h1>
+                {{ provider.business_name }}
+            </h1>
+
+            {% if provider.is_verified %}
+
+            <div class="verified">
+                ✓ Verified Professional
+            </div>
+
+            {% endif %}
+
+            <div class="location">
+                📍 {{ provider.location }}
+            </div>
+
+            <div class="experience">
+                💼 {{ provider.experience_years }} Years Experience
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="content">
+
+    <a
+        href="/professionals/"
+        class="back"
+    >
+        ← Back to Professionals
+    </a>
+
+
+    <div class="grid">
+
+
+        <div>
+
+
+            <div class="card">
+
+                <h2>
+                    About
+                </h2>
+
+                <p class="about">
+
+                    {{ provider.description }}
+
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2>
+                    Services
+                </h2>
+
+
+                {% for ps in provider.provider_services.all %}
+
+                <div class="service-item">
+
+                    <h3>
+                        {{ ps.service.name }}
+                    </h3>
+
+                    <div class="price">
+                        Starting ₹{{ ps.starting_price }}
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <p>
+                    No services added yet.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+
+         <div class="card">
+
+            <h2>📸 Portfolio</h2>
+
+            <div class="portfolio-grid">
+
+                {% for item in portfolio %}
+
+                <div class="portfolio-card">
+
+                    {% if item.image %}
+
+                        <img
+                            src="{{ item.image.url }}"
+                            alt="{{ item.title }}"
+                        >
+
+                    {% elif item.media_url %}
+
+                        <a
+                            href="{{ item.media_url }}"
+                            target="_blank"
+                        >
+                            View Video
+                        </a>
+
+                    {% endif %}
+
+                    <h3>
+                        {{ item.title }}
+                    </h3>
+
+                    <p>
+                        {{ item.description }}
+                    </p>
+
+                </div>
+
+                {% empty %}
+
+                <p>
+                    No portfolio available.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+            <p style="margin-top:15px;color:#6b7280;">
+                Portfolio items will appear here.
+            </p>
+
+        </div>
+
+
+            <div class="card">
+
+                <h2>
+                    Service Area
+                </h2>
+
+                <p class="about">
+
+                    {{ provider.service_area }}
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+
+            <div class="card contact-card">
+
+                <h2>
+                    Interested in this professional?
+                </h2>
+
+                <p>
+                    Contact {{ provider.business_name }}
+                    directly for your event.
+                </p>
+
+                <a
+                    href="{% url 'contact_professional' provider.id %}"
+                    class="contact-btn"
+                >
+                    Contact Professional
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

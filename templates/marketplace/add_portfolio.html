@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Portfolio</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background: #f5f6f8;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #f59e0b;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📸 Add Portfolio</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label>Title</label>
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Wedding Highlights"
+            required
+        >
+
+        <label>Media Type</label>
+
+        <select name="media_type" required>
+
+            <option value="image">
+                Image
+            </option>
+
+            <option value="video">
+                Video
+            </option>
+
+        </select>
+
+
+        <label>Upload Image</label>
+
+        <input
+            type="file"
+            name="image"
+            accept="image/*"
+        >
+
+        <label>Media URL</label>
+
+        <input
+            type="url"
+            name="media_url"
+            placeholder="https://..."
+        >
+
+        <label>Description</label>
+
+        <textarea
+            name="description"
+            rows="5"
+        ></textarea>
+
+        <button type="submit">
+            Add Portfolio
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

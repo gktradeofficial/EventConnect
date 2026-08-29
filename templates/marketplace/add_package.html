@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Package - EventConnect</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f6f8;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #f59e0b;
+            border: 0;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💼 Add Package</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Package Name</label>
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Wedding Premium Package"
+            required
+        >
+
+        <label>Description</label>
+
+        <textarea
+            name="description"
+            rows="5"
+            placeholder="Describe your package..."
+        ></textarea>
+
+        <label>Price (₹)</label>
+
+        <input
+            type="number"
+            name="price"
+            min="0"
+            required
+        >
+
+        <button type="submit">
+            Add Package
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
