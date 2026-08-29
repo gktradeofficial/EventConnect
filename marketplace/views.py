@@ -350,22 +350,6 @@ def edit_professional_profile(request):
     )
 
 
-@login_required
-def mark_enquiry_read(request, enquiry_id):
-
-    enquiry = get_object_or_404(
-        Enquiry,
-        id=enquiry_id,
-        provider__user=request.user
-    )
-
-    enquiry.is_read = True
-    enquiry.save()
-
-    return redirect(
-        'professional_dashboard'
-    )
-
 
 @login_required
 def update_profile_image(request):
