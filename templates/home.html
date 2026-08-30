@@ -1,381 +1,694 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-    <title>EventConnect - Find Event Professionals</title>
+{% block title %}
+EventConnect — Find Event Professionals
+{% endblock %}
 
-    <style>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+{% block extra_css %}
+
+<style>
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        position: relative;
+        min-height: 620px;
+
+        display: flex;
+        align-items: center;
+
+        background:
+            linear-gradient(
+                90deg,
+                rgba(8, 15, 30, 0.96),
+                rgba(8, 15, 30, 0.72),
+                rgba(8, 15, 30, 0.45)
+            ),
+            url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=85");
+
+        background-size: cover;
+        background-position: center;
+    }
+
+
+    .hero-content {
+        width: min(1200px, 92%);
+        margin: auto;
+
+        color: white;
+    }
+
+
+    .hero-badge {
+        display: inline-flex;
+
+        padding: 8px 14px;
+
+        background: rgba(245,158,11,0.15);
+        border: 1px solid rgba(245,158,11,0.35);
+
+        color: #fbbf24;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        margin-bottom: 20px;
+    }
+
+
+    .hero h1 {
+        max-width: 760px;
+
+        font-size: clamp(42px, 6vw, 68px);
+
+        line-height: 1.05;
+
+        letter-spacing: -2px;
+
+        margin-bottom: 22px;
+    }
+
+
+    .hero h1 span {
+        color: #fbbf24;
+    }
+
+
+    .hero-description {
+        max-width: 650px;
+
+        color: #d1d5db;
+
+        font-size: 18px;
+        line-height: 1.7;
+
+        margin-bottom: 35px;
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-wrapper {
+        max-width: 900px;
+
+        background: white;
+
+        padding: 8px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,0.25);
+    }
+
+
+    .search-form {
+        display: grid;
+
+        grid-template-columns:
+            1.2fr
+            1fr
+            auto;
+
+        gap: 8px;
+    }
+
+
+    .search-field {
+        display: flex;
+        align-items: center;
+
+        padding: 0 15px;
+
+        border-right: 1px solid #e5e7eb;
+    }
+
+
+    .search-field-icon {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+
+    .search-field select,
+    .search-field input {
+        border: none;
+        box-shadow: none;
+
+        padding: 14px 5px;
+
+        width: 100%;
+    }
+
+
+    .search-button {
+        border: none;
+
+        background: #f59e0b;
+        color: #111827;
+
+        padding: 0 28px;
+
+        border-radius: 10px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        transition: .2s;
+    }
+
+
+    .search-button:hover {
+        background: #d97706;
+        color: white;
+    }
+
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .hero-stats {
+        display: flex;
+
+        gap: 35px;
+
+        margin-top: 35px;
+    }
+
+
+    .stat strong {
+        display: block;
+
+        font-size: 25px;
+
+        color: white;
+    }
+
+
+    .stat span {
+        color: #9ca3af;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================
+       SERVICES
+    ========================= */
+
+    .services-section {
+        padding: 80px 0;
+    }
+
+
+    .section-heading {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: end;
+
+        margin-bottom: 35px;
+    }
+
+
+    .section-heading h2 {
+        font-size: 34px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .section-heading p {
+        color: #6b7280;
+    }
+
+
+    .view-all {
+        color: #d97706;
+
+        text-decoration: none;
+
+        font-weight: 700;
+    }
+
+
+    .service-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 20px;
+    }
+
+
+    .service-card {
+        background: white;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 16px;
+
+        padding: 25px;
+
+        text-decoration: none;
+
+        color: #111827;
+
+        transition: .25s;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .service-card:hover {
+        transform: translateY(-6px);
+
+        border-color: #f59e0b;
+
+        box-shadow:
+            0 15px 35px rgba(0,0,0,0.08);
+    }
+
+
+    .service-icon {
+        width: 55px;
+        height: 55px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #fff7ed;
+
+        border-radius: 14px;
+
+        font-size: 27px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .service-card h3 {
+        font-size: 18px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .service-card p {
+        color: #6b7280;
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    .service-arrow {
+        position: absolute;
+
+        right: 20px;
+        bottom: 20px;
+
+        color: #f59e0b;
+
+        font-size: 20px;
+    }
+
+
+    /* =========================
+       HOW IT WORKS
+    ========================= */
+
+    .how-section {
+        background: #111827;
+
+        color: white;
+
+        padding: 80px 0;
+    }
+
+
+    .how-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 25px;
+
+        margin-top: 40px;
+    }
+
+
+    .how-card {
+        background: rgba(255,255,255,0.05);
+
+        border: 1px solid rgba(255,255,255,0.08);
+
+        padding: 30px;
+
+        border-radius: 16px;
+    }
+
+
+    .step-number {
+        width: 45px;
+        height: 45px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #f59e0b;
+
+        color: #111827;
+
+        border-radius: 50%;
+
+        font-weight: 900;
+
+        margin-bottom: 20px;
+    }
+
+
+    .how-card h3 {
+        margin-bottom: 10px;
+    }
+
+
+    .how-card p {
+        color: #9ca3af;
+
+        line-height: 1.6;
+
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       PROFESSIONAL CTA
+    ========================= */
+
+    .cta-section {
+        padding: 80px 0;
+    }
+
+
+    .cta {
+        background:
+            linear-gradient(
+                135deg,
+                #1f2937,
+                #111827
+            );
+
+        border-radius: 22px;
+
+        padding: 55px;
+
+        color: white;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 30px;
+    }
+
+
+    .cta h2 {
+        font-size: 32px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .cta p {
+        color: #9ca3af;
+
+        max-width: 600px;
+    }
+
+
+    .cta .btn {
+        white-space: nowrap;
+
+        padding: 14px 25px;
+    }
+
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width: 900px) {
+
+        .service-grid {
+            grid-template-columns:
+                repeat(2, 1fr);
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f8;
-            color: #1f2937;
+        .search-form {
+            grid-template-columns: 1fr;
         }
 
-        header {
-            background: #111827;
-            padding: 18px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .search-field {
+            border-right: none;
+
+            border-bottom: 1px solid #e5e7eb;
         }
 
-        .logo {
-            color: white;
-            font-size: 25px;
-            font-weight: bold;
+        .search-button {
+            padding: 15px;
         }
 
-        .logo span {
-            color: #f59e0b;
+        .how-grid {
+            grid-template-columns: 1fr;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 25px;
-            font-size: 15px;
-        }
-
-        .btn {
-            background: #f59e0b;
-            color: #111827 !important;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .hero {
-            min-height: 520px;
-            background:
-                linear-gradient(
-                    rgba(17, 24, 39, 0.82),
-                    rgba(17, 24, 39, 0.82)
-                ),
-                url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=80");
-
-            background-size: cover;
-            background-position: center;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .cta {
+            flex-direction: column;
 
             text-align: center;
-            color: white;
-            padding: 50px 20px;
         }
 
-        .hero-content {
-            max-width: 850px;
+    }
+
+
+    @media(max-width: 600px) {
+
+        .hero {
+            min-height: 650px;
         }
 
         .hero h1 {
-            font-size: 55px;
-            line-height: 1.1;
-            margin-bottom: 20px;
+            letter-spacing: -1px;
         }
 
-        .hero p {
+        .hero-description {
+            font-size: 16px;
+        }
+
+        .hero-stats {
+            gap: 18px;
+        }
+
+        .stat strong {
             font-size: 20px;
-            color: #e5e7eb;
-            margin-bottom: 35px;
         }
 
-        .search-box {
-            background: white;
-            padding: 12px;
-            border-radius: 12px;
-
-            display: flex;
-            gap: 10px;
-            max-width: 850px;
-            margin: auto;
+        .service-grid {
+            grid-template-columns: 1fr;
         }
 
-        .search-box input,
-        .search-box select {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 15px;
-            font-size: 15px;
-            color: #374151;
+        .section-heading {
+            display: block;
         }
 
-        .search-btn {
-            background: #f59e0b;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
+        .view-all {
+            display: inline-block;
+
+            margin-top: 15px;
         }
 
-        .section {
-            padding: 70px 7%;
+        .cta {
+            padding: 35px 25px;
         }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 45px;
-        }
+    }
 
-        .section-title h2 {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
+</style>
 
-        .section-title p {
-            color: #6b7280;
-        }
+{% endblock %}
 
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
 
-        .category {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-            transition: 0.3s;
-            cursor: pointer;
-        }
 
-        .category:hover {
-            transform: translateY(-5px);
-        }
+{% block content %}
 
-        .category-icon {
-            font-size: 45px;
-            margin-bottom: 15px;
-        }
 
-        .category h3 {
-            margin-bottom: 8px;
-        }
-
-        .category p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .features {
-            background: #111827;
-            color: white;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
-
-        .feature {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .feature p {
-            color: #d1d5db;
-            margin-top: 8px;
-            font-size: 14px;
-        }
-
-        .professional-cta {
-            background: white;
-            margin: 60px 7%;
-            padding: 55px;
-            border-radius: 20px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-        }
-
-        .professional-cta h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .professional-cta p {
-            color: #6b7280;
-        }
-
-        footer {
-            background: #0b1120;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-
-        footer p {
-            color: #9ca3af;
-            font-size: 14px;
-        }
-
-        @media (max-width: 900px) {
-
-            .categories {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero h1 {
-                font-size: 40px;
-            }
-
-            .search-box {
-                flex-direction: column;
-            }
-
-            .professional-cta {
-                flex-direction: column;
-                gap: 25px;
-                text-align: center;
-            }
-
-        }
-
-        @media (max-width: 600px) {
-
-            nav a:not(.btn) {
-                display: none;
-            }
-
-            .categories {
-                grid-template-columns: 1fr;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 34px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-        }
-
-    </style>
-</head>
-
-<body>
-
-<header>
-
-    <div class="logo">
-        Event<span>Connect</span>
-    </div>
-
-    <nav>
-
-        <a href="/">
-            Home
-        </a>
-
-        <a href="/professionals/">
-            Find Professionals
-        </a>
-
-        {% if user.is_authenticated %}
-
-            {% if user.provider_profile %}
-
-                <a href="/professionals/dashboard/">
-                    Dashboard
-                </a>
-
-            {% else %}
-
-                <a href="/accounts/dashboard/">
-                    Dashboard
-                </a>
-
-            {% endif %}
-
-            <a href="/accounts/logout/">
-                Logout
-            </a>
-
-        {% else %}
-
-            <a href="/accounts/login/">
-                Login
-            </a>
-
-            <a href="/accounts/register/" class="btn">
-                Join Now
-            </a>
-
-        {% endif %}
-
-    </nav>
-
-</header>
-
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
     <div class="hero-content">
 
+        <div class="hero-badge">
+            ✨ India's Event Professional Marketplace
+        </div>
+
+
         <h1>
-            Find the Perfect Professionals
+            Find the
+            <span>Perfect Professionals</span>
             for Your Event
         </h1>
 
-        <p>
-            Connect with photographers, videographers,
-            editors and event professionals.
+
+        <p class="hero-description">
+            Discover photographers, videographers, editors
+            and other trusted professionals who can make
+            your special moments unforgettable.
         </p>
 
-        <div class="search-box">
 
-            <select>
-                <option>Select Service</option>
-                <option>Photographer</option>
-                <option>Videographer</option>
-                <option>Video Editor</option>
-                <option>Event Planner</option>
-                <option>Decorator</option>
-                <option>Makeup Artist</option>
-                <option>DJ</option>
-            </select>
+        <div class="search-wrapper">
 
-            <input
-                type="text"
-                placeholder="Enter location"
+            <form
+                method="GET"
+                action="{% url 'find_professionals' %}"
+                class="search-form"
             >
 
-            <button class="search-btn">
-                Search
-            </button>
+                <div class="search-field">
+
+                    <span class="search-field-icon">
+                        🔎
+                    </span>
+
+                    <select name="service">
+
+                        <option value="">
+                            Select Service
+                        </option>
+
+                        <option value="1">
+                            Wedding Photography
+                        </option>
+
+                        <option value="2">
+                            Pre-Wedding Photography
+                        </option>
+
+                        <option value="3">
+                            Event Photography
+                        </option>
+
+                        <option value="4">
+                            Wedding Videography
+                        </option>
+
+                        <option value="5">
+                            Cinematic Videography
+                        </option>
+
+                        <option value="6">
+                            Event Videography
+                        </option>
+
+                        <option value="7">
+                            Wedding Video Editing
+                        </option>
+
+                        <option value="8">
+                            Cinematic Video Editing
+                        </option>
+
+                        <option value="9">
+                            Reels Editing
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="search-field">
+
+                    <span class="search-field-icon">
+                        📍
+                    </span>
+
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Enter location"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    Search Professionals
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="hero-stats">
+
+            <div class="stat">
+
+                <strong>100+</strong>
+
+                <span>
+                    Professionals
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>10+</strong>
+
+                <span>
+                    Services
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>24/7</strong>
+
+                <span>
+                    Easy Enquiry
+                </span>
+
+            </div>
 
         </div>
 
@@ -384,144 +697,141 @@
 </section>
 
 
-<section class="section">
 
-    <div class="section-title">
+<!-- =========================
+     SERVICES
+========================= -->
 
-        <h2>Explore Services</h2>
+<section class="services-section">
 
-        <p>
-            Find trusted professionals for every type of event.
-        </p>
+    <div class="container">
 
-    </div>
+        <div class="section-heading">
 
+            <div>
 
-    <div class="categories">
+                <h2>
+                    Explore Services
+                </h2>
 
-        <div class="category">
-            <div class="category-icon">📸</div>
-            <h3>Photographer</h3>
-            <p>Capture your special moments.</p>
-        </div>
+                <p>
+                    Find the right professional for your occasion.
+                </p>
 
-
-        <div class="category">
-            <div class="category-icon">🎥</div>
-            <h3>Videographer</h3>
-            <p>Create beautiful event films.</p>
-        </div>
+            </div>
 
 
-        <div class="category">
-            <div class="category-icon">✂️</div>
-            <h3>Video Editor</h3>
-            <p>Turn footage into amazing stories.</p>
-        </div>
-
-
-        <div class="category">
-            <div class="category-icon">🎨</div>
-            <h3>Event Planner</h3>
-            <p>Plan and organize your event.</p>
-        </div>
-
-
-        <div class="category">
-            <div class="category-icon">🌸</div>
-            <h3>Decorator</h3>
-            <p>Make your venue beautiful.</p>
-        </div>
-
-
-        <div class="category">
-            <div class="category-icon">💄</div>
-            <h3>Makeup Artist</h3>
-            <p>Professional event makeup.</p>
-        </div>
-
-
-        <div class="category">
-            <div class="category-icon">🎧</div>
-            <h3>DJ</h3>
-            <p>Bring energy to your celebration.</p>
-        </div>
-
-
-        <div class="category">
-            <div class="category-icon">🚁</div>
-            <h3>Drone Operator</h3>
-            <p>Aerial photography and video.</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="section features">
-
-    <div class="section-title">
-
-        <h2>Why EventConnect?</h2>
-
-        <p>
-            Everything you need to find the right professional.
-        </p>
-
-    </div>
-
-
-    <div class="feature-grid">
-
-        <div class="feature">
-
-            <div class="feature-icon">✓</div>
-
-            <h3>Verified Professionals</h3>
-
-            <p>
-                Discover trusted event professionals.
-            </p>
+            <a
+                href="{% url 'find_professionals' %}"
+                class="view-all"
+            >
+                View All →
+            </a>
 
         </div>
 
 
-        <div class="feature">
-
-            <div class="feature-icon">🔎</div>
-
-            <h3>Easy Search</h3>
-
-            <p>
-                Find professionals based on service and location.
-            </p>
-
-        </div>
+        <div class="service-grid">
 
 
-        <div class="feature">
+            <a
+                href="{% url 'find_professionals' %}?service=1"
+                class="service-card"
+            >
 
-            <div class="feature-icon">💬</div>
+                <div class="service-icon">
+                    📸
+                </div>
 
-            <h3>Direct Communication</h3>
+                <h3>
+                    Photography
+                </h3>
 
-            <p>
-                Talk directly with professionals.
-            </p>
+                <p>
+                    Wedding, pre-wedding and event photography.
+                </p>
 
-        </div>
+                <span class="service-arrow">
+                    →
+                </span>
+
+            </a>
 
 
-        <div class="feature">
 
-            <div class="feature-icon">⭐</div>
+            <a
+                href="{% url 'find_professionals' %}?service=4"
+                class="service-card"
+            >
 
-            <h3>Reviews</h3>
+                <div class="service-icon">
+                    🎥
+                </div>
 
-            <p>
-                Compare ratings and customer experiences.
-            </p>
+                <h3>
+                    Videography
+                </h3>
+
+                <p>
+                    Capture your memories with cinematic videos.
+                </p>
+
+                <span class="service-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'find_professionals' %}?service=7"
+                class="service-card"
+            >
+
+                <div class="service-icon">
+                    ✂️
+                </div>
+
+                <h3>
+                    Video Editing
+                </h3>
+
+                <p>
+                    Turn your footage into beautiful stories.
+                </p>
+
+                <span class="service-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="{% url 'find_professionals' %}"
+                class="service-card"
+            >
+
+                <div class="service-icon">
+                    🎉
+                </div>
+
+                <h3>
+                    Event Services
+                </h3>
+
+                <p>
+                    Discover professionals for your event.
+                </p>
+
+                <span class="service-arrow">
+                    →
+                </span>
+
+            </a>
+
 
         </div>
 
@@ -530,46 +840,134 @@
 </section>
 
 
-<section class="professional-cta">
 
-    <div>
+<!-- =========================
+     HOW IT WORKS
+========================= -->
 
-        <h2>Are you an Event Professional?</h2>
+<section class="how-section">
 
-        <p>
-            Showcase your work and connect with new customers.
-        </p>
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+
+                <h2>
+                    How EventConnect Works
+                </h2>
+
+                <p style="color:#9ca3af;">
+                    Finding the right professional is simple.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="how-grid">
+
+
+            <div class="how-card">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>
+                    Search
+                </h3>
+
+                <p>
+                    Choose the service you need and
+                    enter your location.
+                </p>
+
+            </div>
+
+
+            <div class="how-card">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>
+                    Compare
+                </h3>
+
+                <p>
+                    Explore professional profiles,
+                    services, packages and portfolios.
+                </p>
+
+            </div>
+
+
+            <div class="how-card">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>
+                    Connect
+                </h3>
+
+                <p>
+                    Send an enquiry directly to the
+                    professional you like.
+                </p>
+
+            </div>
+
+
+        </div>
 
     </div>
-
-    <a
-        href="/accounts/register/" class="btn">
-        Join Now
-    
-    </a>
 
 </section>
 
 
-<footer>
 
-    <div class="logo">
-        Event<span>Connect</span>
+<!-- =========================
+     PROFESSIONAL CTA
+========================= -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta">
+
+            <div>
+
+                <h2>
+                    Are you an Event Professional?
+                </h2>
+
+                <p>
+                    Showcase your work, add your services
+                    and connect with customers looking
+                    for professionals like you.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'register' %}"
+                class="btn"
+            >
+                Join as Professional →
+            </a>
+
+        </div>
+
     </div>
 
-    <br>
+</section>
 
-    <p>
-        Connecting customers with trusted event professionals.
-    </p>
 
-    <br>
-
-    <p>
-        © 2026 EventConnect. All rights reserved.
-    </p>
-
-</footer>
-
-</body>
-</html>
+{% endblock %}

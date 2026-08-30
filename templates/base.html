@@ -1,0 +1,890 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}EventConnect{% endblock %}
+    </title>
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f5f7fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .ec-navbar {
+            height: 72px;
+
+            background: rgba(15, 23, 42, 0.97);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+
+        .ec-logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .ec-logo span {
+            color: #f59e0b;
+        }
+
+
+        .ec-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+        .ec-nav a {
+            color: #cbd5e1;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 10px 14px;
+
+            border-radius: 8px;
+
+            transition: 0.25s;
+        }
+
+
+        .ec-nav a:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+        }
+
+
+        .ec-nav .nav-primary {
+            background: #f59e0b;
+            color: #111827;
+            margin-left: 6px;
+        }
+
+
+        .ec-nav .nav-primary:hover {
+            background: #fbbf24;
+            color: #111827;
+        }
+
+
+        /* =========================
+           PAGE CONTAINER
+        ========================= */
+
+        .ec-page {
+            min-height: calc(100vh - 72px);
+        }
+
+
+        .ec-container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .ec-messages {
+            position: fixed;
+            top: 88px;
+            right: 25px;
+
+            width: 340px;
+
+            z-index: 2000;
+        }
+
+
+        .ec-message {
+            background: #ffffff;
+
+            border-left: 4px solid #f59e0b;
+
+            padding: 15px 18px;
+
+            margin-bottom: 12px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.12);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           COMMON BUTTONS
+        ========================= */
+
+        .ec-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 11px 18px;
+
+            border-radius: 9px;
+
+            border: none;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
+        }
+
+
+        .ec-btn:hover {
+            transform: translateY(-1px);
+        }
+
+
+        .ec-btn-primary {
+            background: #f59e0b;
+            color: #111827;
+
+            box-shadow:
+                0 5px 15px rgba(245,158,11,0.25);
+        }
+
+
+        .ec-btn-primary:hover {
+            background: #d97706;
+            color: white;
+        }
+
+
+        .ec-btn-dark {
+            background: #172033;
+            color: white;
+        }
+
+
+        .ec-btn-dark:hover {
+            background: #0f172a;
+        }
+
+
+        .ec-btn-outline {
+            background: white;
+            color: #172033;
+            border: 1px solid #dbe1ea;
+        }
+
+
+        .ec-btn-outline:hover {
+            border-color: #f59e0b;
+            color: #d97706;
+        }
+
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .ec-card {
+            background: white;
+
+            border: 1px solid #e7ebf1;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 30px rgba(15,23,42,0.05);
+        }
+
+
+        .ec-card-hover {
+            transition:
+                transform 0.25s,
+                box-shadow 0.25s;
+        }
+
+
+        .ec-card-hover:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 40px rgba(15,23,42,0.10);
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .ec-section {
+            padding: 70px 0;
+        }
+
+
+        .ec-section-header {
+            margin-bottom: 35px;
+        }
+
+
+        .ec-section-header.center {
+            text-align: center;
+        }
+
+
+        .ec-section-title {
+            font-size: 32px;
+            font-weight: 800;
+
+            color: #172033;
+
+            margin-bottom: 8px;
+        }
+
+
+        .ec-section-subtitle {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .ec-form-group {
+            margin-bottom: 18px;
+        }
+
+
+        .ec-form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+
+        .ec-input,
+        .ec-select,
+        .ec-textarea,
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 12px 14px;
+
+            background: #ffffff;
+
+            border: 1px solid #d7dee8;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            transition:
+                border 0.2s,
+                box-shadow 0.2s;
+        }
+
+
+        .ec-input:focus,
+        .ec-select:focus,
+        .ec-textarea:focus,
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #f59e0b;
+
+            box-shadow:
+                0 0 0 3px rgba(245,158,11,0.12);
+        }
+
+
+        .ec-textarea,
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+
+        /* =========================
+           BADGES
+        ========================= */
+
+        .ec-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 5px 10px;
+
+            border-radius: 999px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .ec-badge-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+
+        .ec-badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+
+        .ec-badge-dark {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .ec-footer {
+            background: #0b1120;
+
+            color: white;
+
+            margin-top: 70px;
+
+            padding: 55px 6% 25px;
+        }
+
+
+        .ec-footer-grid {
+            max-width: 1250px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr 1fr;
+
+            gap: 45px;
+
+            padding-bottom: 40px;
+        }
+
+
+        .ec-footer h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+
+        .ec-footer p {
+            color: #94a3b8;
+            font-size: 14px;
+            max-width: 350px;
+        }
+
+
+        .ec-footer a {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            margin-bottom: 9px;
+
+            transition: 0.2s;
+        }
+
+
+        .ec-footer a:hover {
+            color: #f59e0b;
+        }
+
+
+        .ec-footer-bottom {
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.08);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MOBILE MENU
+        ========================= */
+
+        .ec-mobile-btn {
+            display: none;
+
+            background: transparent;
+
+            border: none;
+
+            color: white;
+
+            font-size: 25px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 850px) {
+
+            .ec-navbar {
+                padding: 0 5%;
+            }
+
+
+            .ec-mobile-btn {
+                display: block;
+            }
+
+
+            .ec-nav {
+                display: none;
+
+                position: absolute;
+
+                top: 72px;
+                left: 0;
+
+                width: 100%;
+
+                background: #0f172a;
+
+                padding: 15px;
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .ec-nav.active {
+                display: flex;
+            }
+
+
+            .ec-nav a {
+                text-align: center;
+            }
+
+
+            .ec-footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .ec-footer-bottom {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+        }
+
+
+        @media(max-width: 550px) {
+
+            .ec-section {
+                padding: 45px 0;
+            }
+
+
+            .ec-section-title {
+                font-size: 26px;
+            }
+
+
+            .ec-footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .ec-messages {
+                left: 15px;
+                right: 15px;
+                width: auto;
+            }
+
+        }
+
+    </style>
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="ec-navbar">
+
+    <a href="/" class="ec-logo">
+        Event<span>Connect</span>
+    </a>
+
+
+    <button
+        class="ec-mobile-btn"
+        onclick="toggleMobileMenu()"
+        aria-label="Menu"
+    >
+        ☰
+    </button>
+
+
+    <nav class="ec-nav" id="ecNav">
+
+        <a href="/">
+            Home
+        </a>
+
+
+        <a href="/professionals/">
+            Find Professionals
+        </a>
+
+
+        {% if user.is_authenticated %}
+
+            {% if user.provider_profile %}
+
+                <a href="/professionals/dashboard/">
+                    Dashboard
+                </a>
+
+            {% else %}
+
+                <a href="/accounts/dashboard/">
+                    Dashboard
+                </a>
+
+            {% endif %}
+
+
+            <a href="/accounts/logout/">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="/accounts/login/">
+                Login
+            </a>
+
+
+            <a
+                href="/accounts/register/"
+                class="nav-primary"
+            >
+                Join Now
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     DJANGO MESSAGES
+========================= -->
+
+{% if messages %}
+
+<div class="ec-messages">
+
+    {% for message in messages %}
+
+        <div class="ec-message">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main class="ec-page">
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="ec-footer">
+
+    <div class="ec-footer-grid">
+
+
+        <div>
+
+            <div class="ec-logo">
+                Event<span>Connect</span>
+            </div>
+
+            <br>
+
+            <p>
+                Connecting customers with trusted
+                event professionals for memorable
+                celebrations.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Explore
+            </h3>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/professionals/">
+                Find Professionals
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Account
+            </h3>
+
+            {% if user.is_authenticated %}
+
+                <a href="/accounts/dashboard/">
+                    Dashboard
+                </a>
+
+                <a href="/accounts/logout/">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="/accounts/login/">
+                    Login
+                </a>
+
+                <a href="/accounts/register/">
+                    Create Account
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                For Professionals
+            </h3>
+
+            <a href="/accounts/register/">
+                Join EventConnect
+            </a>
+
+            <a href="/professionals/">
+                View Marketplace
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="ec-footer-bottom">
+
+        <span>
+            © 2026 EventConnect. All rights reserved.
+        </span>
+
+        <span>
+            Built for better events.
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    function toggleMobileMenu() {
+
+        const nav =
+            document.getElementById("ecNav");
+
+        nav.classList.toggle("active");
+
+    }
+
+
+    /*
+       Automatically hide Django
+       messages after 4 seconds.
+    */
+
+    setTimeout(function() {
+
+        const messages =
+            document.querySelector(".ec-messages");
+
+        if (messages) {
+
+            messages.style.opacity = "0";
+
+            messages.style.transition =
+                "opacity 0.5s";
+
+            setTimeout(function() {
+
+                messages.remove();
+
+            }, 500);
+
+        }
+
+    }, 4000);
+
+</script>
+
+
+{% block extra_js %}{% endblock %}
+
+
+</body>
+</html>
