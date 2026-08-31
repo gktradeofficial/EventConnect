@@ -1,86 +1,728 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Package - EventConnect</title>
+{% extends "base.html" %}
 
-    <style>
-        body {
-            font-family: Arial;
-            background: #f5f6f8;
-            margin: 0;
+{% block title %}Add Package | EventSetu{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .package-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(circle at 10% 10%, rgba(245,158,11,.10), transparent 30%),
+            radial-gradient(circle at 90% 90%, rgba(17,24,39,.06), transparent 35%),
+            #f6f7fb;
+        padding: 45px 20px 80px;
+    }
+
+    .package-wrapper {
+        max-width: 1050px;
+        margin: auto;
+    }
+
+    /* HEADER */
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        text-decoration: none;
+        color: #6b7280;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        transition: .2s;
+    }
+
+    .back-link:hover {
+        color: #d97706;
+    }
+
+    .page-header h1 {
+        color: #111827;
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #6b7280;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* LAYOUT */
+
+    .package-layout {
+        display: grid;
+        grid-template-columns: 310px 1fr;
+        gap: 25px;
+        align-items: start;
+    }
+
+    /* INFO */
+
+    .info-card {
+        background: linear-gradient(145deg, #111827, #1f2937);
+        color: white;
+        border-radius: 22px;
+        padding: 30px;
+        position: sticky;
+        top: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(17,24,39,.14);
+    }
+
+    .info-card::after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: rgba(245,158,11,.08);
+        right: -90px;
+        top: -80px;
+    }
+
+    .info-icon {
+        width: 66px;
+        height: 66px;
+        border-radius: 18px;
+        background: rgba(245,158,11,.14);
+        border: 1px solid rgba(245,158,11,.20);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-bottom: 22px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .info-card h2 {
+        font-size: 23px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .info-card > p {
+        color: #d1d5db;
+        font-size: 13px;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tips {
+        border-top: 1px solid rgba(255,255,255,.12);
+        padding-top: 20px;
+        margin-top: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tip {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        color: #d1d5db;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .tip:last-child {
+        margin-bottom: 0;
+    }
+
+    .tip-icon {
+        color: #fbbf24;
+        flex-shrink: 0;
+    }
+
+    /* FORM */
+
+    .form-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.06);
+    }
+
+    .form-header {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 22px;
+        margin-bottom: 25px;
+    }
+
+    .form-header h2 {
+        color: #111827;
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
+    .form-header p {
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    /* NOTICE */
+
+    .notice {
+        display: flex;
+        gap: 11px;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 27px;
+    }
+
+    .notice-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .notice p {
+        color: #92400e;
+        font-size: 12px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* FORM */
+
+    .form-group {
+        margin-bottom: 23px;
+    }
+
+    label {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #111827;
+        border-radius: 11px;
+        padding: 14px;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: .2s;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    textarea {
+        min-height: 150px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .field-description {
+        color: #9ca3af;
+        font-size: 11px;
+        margin-top: 7px;
+    }
+
+    /* PRICE */
+
+    .price-wrapper {
+        position: relative;
+    }
+
+    .price-symbol {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        font-weight: 800;
+        z-index: 1;
+    }
+
+    .price-input {
+        padding-left: 32px;
+    }
+
+    /* PREVIEW */
+
+    .preview {
+        background: #f9fafb;
+        border: 1px dashed #d1d5db;
+        border-radius: 15px;
+        padding: 18px;
+        margin-top: 8px;
+    }
+
+    .preview-label {
+        color: #9ca3af;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+        margin-bottom: 8px;
+    }
+
+    .preview-name {
+        color: #111827;
+        font-size: 17px;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .preview-price {
+        color: #d97706;
+        font-size: 15px;
+        font-weight: 900;
+    }
+
+    /* BUTTONS */
+
+    .button-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+        margin-top: 30px;
+    }
+
+    .cancel-button {
+        padding: 13px 20px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        color: #6b7280;
+        background: white;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+        transition: .2s;
+    }
+
+    .cancel-button:hover {
+        color: #111827;
+        border-color: #9ca3af;
+    }
+
+    .submit-button {
+        border: none;
+        cursor: pointer;
+        padding: 14px 26px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #111827;
+        font-size: 13px;
+        font-weight: 900;
+        box-shadow: 0 7px 18px rgba(245,158,11,.22);
+        transition: .2s;
+    }
+
+    .submit-button:hover {
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 10px 25px rgba(245,158,11,.30);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+        .package-layout {
+            grid-template-columns: 1fr;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 60px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 15px;
+        .info-card {
+            position: static;
         }
 
-        input, textarea {
+    }
+
+    @media (max-width: 600px) {
+
+        .package-page {
+            padding: 30px 15px 60px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+        }
+
+        .form-card {
+            padding: 23px;
+        }
+
+        .button-area {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .cancel-button,
+        .submit-button {
             width: 100%;
-            padding: 13px;
-            margin: 8px 0 18px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            text-align: center;
+            box-sizing: border-box;
         }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #f59e0b;
-            border: 0;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
+    }
 
-<body>
+</style>
 
-<div class="container">
 
-    <h1>💼 Add Package</h1>
+<div class="package-page">
 
-    <form method="POST">
+    <div class="package-wrapper">
 
-        {% csrf_token %}
 
-        <label>Package Name</label>
+        <!-- HEADER -->
 
-        <input
-            type="text"
-            name="name"
-            placeholder="Wedding Premium Package"
-            required
-        >
+        <div class="page-header">
 
-        <label>Description</label>
+            <a
+                href="{% url 'professional_dashboard' %}"
+                class="back-link"
+            >
+                ← Back to Dashboard
+            </a>
 
-        <textarea
-            name="description"
-            rows="5"
-            placeholder="Describe your package..."
-        ></textarea>
+            <h1>
+                Create a Package
+            </h1>
 
-        <label>Price (₹)</label>
+            <p>
+                Create an attractive service package with clear
+                pricing and details for your customers.
+            </p>
 
-        <input
-            type="number"
-            name="price"
-            min="0"
-            required
-        >
+        </div>
 
-        <button type="submit">
-            Add Package
-        </button>
 
-    </form>
+        <!-- MAIN -->
+
+        <div class="package-layout">
+
+
+            <!-- INFO CARD -->
+
+            <aside class="info-card">
+
+                <div class="info-icon">
+                    📦
+                </div>
+
+                <h2>
+                    Build Your Package
+                </h2>
+
+                <p>
+                    Packages help customers understand exactly
+                    what they can get from you at a specific price.
+                </p>
+
+
+                <div class="tips">
+
+                    <div class="tip">
+
+                        <span class="tip-icon">✓</span>
+
+                        <span>
+                            Give your package a clear and attractive name.
+                        </span>
+
+                    </div>
+
+
+                    <div class="tip">
+
+                        <span class="tip-icon">✓</span>
+
+                        <span>
+                            Clearly explain what is included.
+                        </span>
+
+                    </div>
+
+
+                    <div class="tip">
+
+                        <span class="tip-icon">✓</span>
+
+                        <span>
+                            Keep your pricing transparent and realistic.
+                        </span>
+
+                    </div>
+
+
+                    <div class="tip">
+
+                        <span class="tip-icon">✓</span>
+
+                        <span>
+                            You can edit the package later from your dashboard.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- FORM -->
+
+            <section class="form-card">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Package Information
+                    </h2>
+
+                    <p>
+                        Add the basic details customers will see
+                        on your professional profile.
+                    </p>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        💡
+                    </div>
+
+                    <p>
+                        A well-written package can make it easier
+                        for customers to compare your offerings
+                        and send an enquiry.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- PACKAGE NAME -->
+
+                    <div class="form-group">
+
+                        <label for="name">
+
+                            Package Name
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="e.g. Premium Wedding Package"
+                            maxlength="150"
+                            required
+                        >
+
+                        <div class="field-description">
+                            Use a short name that clearly describes
+                            your package.
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label for="description">
+
+                            Package Description
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <textarea
+                            name="description"
+                            id="description"
+                            placeholder="Describe what is included in this package, such as number of hours, photos, videos, editing, deliverables, etc."
+                            required
+                        ></textarea>
+
+                        <div class="field-description">
+                            Mention the important services and deliverables
+                            included in this package.
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="form-group">
+
+                        <label for="price">
+
+                            Package Price
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <div class="price-wrapper">
+
+                            <span class="price-symbol">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                name="price"
+                                id="price"
+                                class="price-input"
+                                placeholder="e.g. 50000"
+                                min="0"
+                                step="1"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="field-description">
+                            Enter the total price customers will see
+                            for this package.
+                        </div>
+
+                    </div>
+
+
+                    <!-- PREVIEW -->
+
+                    <div class="preview">
+
+                        <div class="preview-label">
+                            Package Preview
+                        </div>
+
+                        <div
+                            class="preview-name"
+                            id="preview-name"
+                        >
+                            Your package name
+                        </div>
+
+                        <div
+                            class="preview-price"
+                            id="preview-price"
+                        >
+                            ₹0
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-area">
+
+                        <a
+                            href="{% url 'professional_dashboard' %}"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                        >
+                            📦 Create Package
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </div>
 
 </div>
 
-</body>
-</html>
+
+<script>
+
+    const nameInput = document.getElementById("name");
+    const priceInput = document.getElementById("price");
+
+    const previewName = document.getElementById("preview-name");
+    const previewPrice = document.getElementById("preview-price");
+
+
+    if (nameInput) {
+
+        nameInput.addEventListener("input", function () {
+
+            previewName.textContent =
+                this.value.trim() ||
+                "Your package name";
+
+        });
+
+    }
+
+
+    if (priceInput) {
+
+        priceInput.addEventListener("input", function () {
+
+            const value = this.value;
+
+            if (value) {
+
+                previewPrice.textContent =
+                    "₹" +
+                    Number(value).toLocaleString("en-IN");
+
+            } else {
+
+                previewPrice.textContent = "₹0";
+
+            }
+
+        });
+
+    }
+
+</script>
+
+{% endblock %}

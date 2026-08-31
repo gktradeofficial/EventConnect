@@ -1,83 +1,617 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block title %}Enquiry Sent | EventSetu{% endblock %}
 
-    <title>Enquiry Sent - EventConnect</title>
+{% block content %}
 
-    <style>
+<style>
 
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: #f5f6f8;
+    .success-page {
+        min-height: calc(100vh - 70px);
+
+        background:
+            radial-gradient(
+                circle at 15% 10%,
+                rgba(16,185,129,.10),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 85% 85%,
+                rgba(245,158,11,.10),
+                transparent 30%
+            ),
+            #f6f7fb;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 50px 20px 80px;
+    }
+
+
+    .success-wrapper {
+        width: 100%;
+        max-width: 850px;
+        margin: auto;
+    }
+
+
+    /* =========================
+       SUCCESS CARD
+    ========================= */
+
+    .success-card {
+        background: white;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 26px;
+
+        padding: 50px;
+
+        text-align: center;
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,.09);
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .success-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 280px;
+        height: 280px;
+
+        border-radius: 50%;
+
+        background: rgba(16,185,129,.06);
+
+        top: -170px;
+        left: -100px;
+    }
+
+
+    .success-card::after {
+        content: "";
+
+        position: absolute;
+
+        width: 240px;
+        height: 240px;
+
+        border-radius: 50%;
+
+        background: rgba(245,158,11,.06);
+
+        bottom: -150px;
+        right: -90px;
+    }
+
+
+    /* =========================
+       CHECK ICON
+    ========================= */
+
+    .success-icon-wrapper {
+        width: 90px;
+        height: 90px;
+
+        margin: 0 auto 25px;
+
+        border-radius: 50%;
+
+        background: #ecfdf5;
+
+        border: 1px solid #a7f3d0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .success-icon {
+        width: 62px;
+        height: 62px;
+
+        border-radius: 50%;
+
+        background: #10b981;
+
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 30px;
+
+        font-weight: bold;
+
+        box-shadow:
+            0 8px 20px rgba(16,185,129,.25);
+    }
+
+
+    /* =========================
+       TEXT
+    ========================= */
+
+    .success-card h1 {
+        color: #111827;
+
+        font-size: 34px;
+
+        margin-bottom: 12px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .success-card h1 span {
+        color: #10b981;
+    }
+
+
+    .success-message {
+        max-width: 600px;
+
+        margin: 0 auto 30px;
+
+        color: #6b7280;
+
+        font-size: 15px;
+
+        line-height: 1.8;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    /* =========================
+       PROFESSIONAL
+    ========================= */
+
+    .professional-box {
+        max-width: 550px;
+
+        margin: 0 auto 30px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 18px;
+
+        text-align: left;
+
+        padding: 18px;
+
+        border-radius: 16px;
+
+        background: #f9fafb;
+
+        border: 1px solid #e5e7eb;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .professional-image {
+        width: 65px;
+        height: 65px;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        overflow: hidden;
+
+        background: #e5e7eb;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 27px;
+    }
+
+
+    .professional-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+
+    .professional-info {
+        min-width: 0;
+    }
+
+
+    .professional-label {
+        color: #9ca3af;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: .5px;
+
+        margin-bottom: 4px;
+    }
+
+
+    .professional-name {
+        color: #111827;
+
+        font-size: 18px;
+
+        font-weight: 800;
+
+        margin-bottom: 4px;
+
+        word-break: break-word;
+    }
+
+
+    .professional-location {
+        color: #6b7280;
+
+        font-size: 12px;
+    }
+
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status-box {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 9px;
+
+        color: #047857;
+
+        background: #ecfdf5;
+
+        border: 1px solid #a7f3d0;
+
+        border-radius: 10px;
+
+        padding: 12px 15px;
+
+        max-width: 550px;
+
+        margin: 0 auto 30px;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+
+        border-radius: 50%;
+
+        background: #10b981;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .action-buttons {
+        display: flex;
+
+        justify-content: center;
+
+        gap: 12px;
+
+        flex-wrap: wrap;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    .action-button {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 7px;
+
+        min-width: 190px;
+
+        padding: 13px 20px;
+
+        border-radius: 11px;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        transition: .2s;
+    }
+
+
+    .primary-button {
+        background:
+            linear-gradient(
+                135deg,
+                #f59e0b,
+                #d97706
+            );
+
+        color: #111827;
+
+        box-shadow:
+            0 7px 18px rgba(245,158,11,.20);
+    }
+
+
+    .primary-button:hover {
+        transform: translateY(-2px);
+
+        color: white;
+
+        box-shadow:
+            0 10px 25px rgba(245,158,11,.28);
+    }
+
+
+    .secondary-button {
+        background: white;
+
+        color: #374151;
+
+        border: 1px solid #d1d5db;
+    }
+
+
+    .secondary-button:hover {
+        border-color: #f59e0b;
+
+        color: #d97706;
+
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================
+       FOOT NOTE
+    ========================= */
+
+    .success-footer {
+        margin-top: 28px;
+
+        color: #9ca3af;
+
+        font-size: 11px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        .success-page {
+            padding: 30px 15px 60px;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 100px auto;
-            padding: 20px;
+
+        .success-card {
+            padding: 35px 20px;
+            border-radius: 20px;
         }
 
-        .card {
-            background: white;
-            padding: 40px;
-            text-align: center;
-            border-radius: 15px;
+
+        .success-card h1 {
+            font-size: 27px;
         }
 
-        .success {
-            font-size: 55px;
+
+        .success-message {
+            font-size: 14px;
         }
 
-        a {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 13px 25px;
-            background: #111827;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
+
+        .professional-box {
+            padding: 15px;
+
+            gap: 13px;
         }
 
-    </style>
 
-</head>
+        .professional-image {
+            width: 55px;
+            height: 55px;
+        }
 
-<body>
 
-<div class="container">
+        .professional-name {
+            font-size: 16px;
+        }
 
-    <div class="card">
 
-        <div class="success">
-            ✅
-        </div>
+        .action-buttons {
+            flex-direction: column;
+        }
 
-        <h1>
-            Enquiry Sent Successfully!
-        </h1>
 
-        <p>
-            Your enquiry has been sent to
-            <strong>
-                {{ provider.business_name }}
-            </strong>.
-        </p>
+        .action-button {
+            width: 100%;
+        }
 
-        <p>
-            The professional can now contact you
-            regarding your event.
-        </p>
+    }
 
-        <a href="/">
-            Back to Home
-        </a>
+</style>
+
+
+<div class="success-page">
+
+    <div class="success-wrapper">
+
+        <section class="success-card">
+
+
+            <!-- SUCCESS ICON -->
+
+            <div class="success-icon-wrapper">
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h1>
+                Enquiry <span>Sent Successfully!</span>
+            </h1>
+
+
+            <p class="success-message">
+
+                Your enquiry has been successfully sent.
+                The professional can now review your event
+                requirements and get back to you.
+
+            </p>
+
+
+            <!-- PROFESSIONAL -->
+
+            <div class="professional-box">
+
+
+                <div class="professional-image">
+
+                    {% if provider.profile_image %}
+
+                        <img
+                            src="{{ provider.profile_image.url }}"
+                            alt="{{ provider.business_name }}"
+                        >
+
+                    {% else %}
+
+                        📸
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="professional-info">
+
+                    <div class="professional-label">
+                        Enquiry sent to
+                    </div>
+
+
+                    <div class="professional-name">
+                        {{ provider.business_name }}
+                    </div>
+
+
+                    <div class="professional-location">
+
+                        📍 {{ provider.location }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="status-box">
+
+                <span class="status-dot"></span>
+
+                Your enquiry is now with the professional
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="action-buttons">
+
+
+                <a
+                    href="{% url 'professional_detail' provider.id %}"
+                    class="action-button primary-button"
+                >
+                    ← View Professional Profile
+                </a>
+
+
+                <a
+                    href="{% url 'find_professionals' %}"
+                    class="action-button secondary-button"
+                >
+                    🔎 Find More Professionals
+                </a>
+
+            </div>
+
+
+            <div class="success-footer">
+
+                🔒 EventSetu keeps your enquiry information
+                securely connected with the professional.
+
+            </div>
+
+
+        </section>
 
     </div>
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}

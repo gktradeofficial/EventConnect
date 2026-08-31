@@ -1,85 +1,93 @@
 {% extends "base.html" %}
 
-{% block title %}Find Professionals | EventConnect{% endblock %}
+{% block title %}Find Professionals | EventSetu{% endblock %}
 
 {% block content %}
 
 <style>
-    .marketplace {
+
+    .marketplace-page {
         background: #f6f7fb;
-        min-height: 100vh;
+        min-height: calc(100vh - 70px);
         padding-bottom: 70px;
     }
 
-    .market-hero {
+    /* HERO */
+
+    .marketplace-hero {
         background:
             linear-gradient(135deg, #111827, #1f2937);
         color: white;
         padding: 55px 7% 70px;
+        text-align: center;
     }
 
-    .market-hero-inner {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    .market-hero h1 {
+    .marketplace-hero h1 {
         font-size: 42px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        font-weight: 800;
     }
 
-    .market-hero p {
+    .marketplace-hero p {
         color: #d1d5db;
-        margin-bottom: 30px;
         font-size: 17px;
+        margin-bottom: 30px;
     }
+
+    /* SEARCH */
 
     .search-panel {
+        max-width: 1050px;
+        margin: auto;
         background: white;
-        padding: 12px;
+        padding: 14px;
         border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.20);
+    }
+
+    .search-form {
         display: grid;
         grid-template-columns: 1.5fr 1fr 1fr auto;
         gap: 10px;
-        box-shadow: 0 15px 40px rgba(0,0,0,.2);
     }
 
-    .search-panel input,
-    .search-panel select {
+    .search-form input,
+    .search-form select {
         width: 100%;
+        padding: 14px 15px;
         border: 1px solid #e5e7eb;
-        padding: 14px;
         border-radius: 10px;
         outline: none;
         font-size: 14px;
         background: white;
     }
 
-    .search-panel input:focus,
-    .search-panel select:focus {
+    .search-form input:focus,
+    .search-form select:focus {
         border-color: #f59e0b;
     }
 
-    .search-btn {
+    .search-button {
         border: none;
         background: #f59e0b;
         color: #111827;
-        padding: 14px 25px;
+        padding: 0 25px;
         border-radius: 10px;
-        font-weight: bold;
+        font-weight: 800;
         cursor: pointer;
-        font-size: 15px;
     }
 
-    .search-btn:hover {
+    .search-button:hover {
         background: #d97706;
         color: white;
     }
 
-    .market-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 45px 20px;
+    /* CONTENT */
+
+    .marketplace-content {
+        max-width: 1250px;
+        margin: 45px auto;
+        padding: 0 25px;
     }
 
     .results-header {
@@ -99,7 +107,9 @@
         font-size: 14px;
     }
 
-    .professional-grid {
+    /* CARDS */
+
+    .professionals-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 25px;
@@ -110,61 +120,52 @@
         border-radius: 18px;
         overflow: hidden;
         border: 1px solid #e5e7eb;
-        box-shadow: 0 6px 25px rgba(0,0,0,.06);
+        box-shadow: 0 8px 25px rgba(0,0,0,.06);
         transition: .3s ease;
     }
 
     .professional-card:hover {
         transform: translateY(-7px);
-        box-shadow: 0 15px 35px rgba(0,0,0,.12);
+        box-shadow: 0 18px 40px rgba(0,0,0,.12);
     }
+
+    /* IMAGE */
 
     .profile-cover {
-        height: 155px;
-        background:
-            linear-gradient(
-                135deg,
-                #111827,
-                #374151
-            );
+        height: 190px;
+        background: linear-gradient(135deg,#374151,#111827);
         position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        overflow: hidden;
     }
 
-    .profile-image {
-        width: 95px;
-        height: 95px;
-        border-radius: 50%;
+    .profile-cover img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        border: 4px solid white;
-        background: #f3f4f6;
     }
 
     .profile-placeholder {
-        width: 95px;
-        height: 95px;
-        border-radius: 50%;
-        background: #f3f4f6;
-        border: 4px solid white;
+        height: 100%;
         display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 40px;
+        align-items: center;
+        font-size: 65px;
+        color: #f59e0b;
     }
 
     .verified {
         position: absolute;
-        right: 15px;
-        top: 15px;
-        background: #dcfce7;
-        color: #166534;
+        top: 14px;
+        right: 14px;
+        background: #10b981;
+        color: white;
         padding: 6px 10px;
         border-radius: 20px;
         font-size: 12px;
         font-weight: bold;
     }
+
+    /* CARD BODY */
 
     .card-body {
         padding: 22px;
@@ -172,8 +173,9 @@
 
     .business-name {
         font-size: 21px;
+        font-weight: 800;
         color: #111827;
-        margin-bottom: 7px;
+        margin-bottom: 8px;
     }
 
     .location {
@@ -187,10 +189,12 @@
         font-size: 14px;
         line-height: 1.6;
         min-height: 45px;
-        margin-bottom: 17px;
+        margin-bottom: 18px;
     }
 
-    .service-tags {
+    /* SERVICES */
+
+    .service-list {
         display: flex;
         flex-wrap: wrap;
         gap: 7px;
@@ -202,62 +206,72 @@
         color: #c2410c;
         border: 1px solid #fed7aa;
         padding: 6px 9px;
-        border-radius: 20px;
+        border-radius: 7px;
         font-size: 11px;
-        font-weight: bold;
+        font-weight: 700;
     }
 
-    .card-info {
-        border-top: 1px solid #f0f0f0;
-        padding-top: 15px;
-        margin-top: 5px;
+    /* INFO */
+
+    .professional-info {
         display: flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .price-label {
-        color: #9ca3af;
-        font-size: 11px;
-        display: block;
-        margin-bottom: 3px;
-    }
-
-    .price {
-        color: #111827;
-        font-size: 18px;
-        font-weight: bold;
+        padding: 15px 0;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 17px;
     }
 
     .experience {
-        color: #6b7280;
         font-size: 13px;
-        text-align: right;
+        color: #6b7280;
     }
 
-    .view-btn {
+    .experience strong {
+        display: block;
+        color: #111827;
+        font-size: 16px;
+    }
+
+    .price {
+        text-align: right;
+        color: #6b7280;
+        font-size: 12px;
+    }
+
+    .price strong {
+        display: block;
+        color: #f59e0b;
+        font-size: 18px;
+    }
+
+    /* BUTTON */
+
+    .profile-button {
         display: block;
         width: 100%;
-        margin-top: 18px;
-        padding: 12px;
         text-align: center;
-        text-decoration: none;
         background: #111827;
         color: white;
+        text-decoration: none;
+        padding: 12px;
         border-radius: 9px;
-        font-weight: bold;
+        font-weight: 700;
         transition: .2s;
     }
 
-    .view-btn:hover {
+    .profile-button:hover {
         background: #f59e0b;
         color: #111827;
     }
 
+    /* EMPTY */
+
     .empty-state {
         background: white;
+        padding: 70px 25px;
         border-radius: 18px;
-        padding: 70px 20px;
         text-align: center;
         border: 1px solid #e5e7eb;
     }
@@ -268,7 +282,7 @@
     }
 
     .empty-state h3 {
-        font-size: 23px;
+        font-size: 24px;
         margin-bottom: 8px;
     }
 
@@ -276,36 +290,43 @@
         color: #6b7280;
     }
 
+    /* MOBILE */
+
     @media (max-width: 1000px) {
 
-        .professional-grid {
+        .professionals-grid {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        .search-panel {
+        .search-form {
             grid-template-columns: 1fr 1fr;
         }
 
-        .search-btn {
-            width: 100%;
+        .search-button {
+            padding: 14px;
         }
+
     }
 
     @media (max-width: 650px) {
 
-        .market-hero {
+        .marketplace-hero {
             padding: 40px 20px 50px;
         }
 
-        .market-hero h1 {
+        .marketplace-hero h1 {
             font-size: 32px;
         }
 
-        .search-panel {
+        .marketplace-hero p {
+            font-size: 15px;
+        }
+
+        .search-form {
             grid-template-columns: 1fr;
         }
 
-        .professional-grid {
+        .professionals-grid {
             grid-template-columns: 1fr;
         }
 
@@ -314,31 +335,33 @@
             align-items: flex-start;
             gap: 8px;
         }
+
     }
+
 </style>
 
 
-<div class="marketplace">
+<div class="marketplace-page">
 
     <!-- HERO -->
 
-    <section class="market-hero">
+    <section class="marketplace-hero">
 
-        <div class="market-hero-inner">
+        <h1>
+            Find Your Perfect Event Professional
+        </h1>
 
-            <h1>
-                Find the Right Professional
-            </h1>
-
-            <p>
-                Discover trusted photographers, videographers,
-                editors and other event professionals.
-            </p>
+        <p>
+            Discover trusted photographers, videographers,
+            editors and other event professionals.
+        </p>
 
 
-            <!-- SEARCH -->
+        <!-- SEARCH -->
 
-            <form method="GET" class="search-panel">
+        <div class="search-panel">
+
+            <form method="GET" class="search-form">
 
                 <input
                     type="text"
@@ -380,7 +403,7 @@
 
                 <button
                     type="submit"
-                    class="search-btn"
+                    class="search-button"
                 >
                     🔎 Search
                 </button>
@@ -392,9 +415,10 @@
     </section>
 
 
-    <!-- RESULTS -->
+    <!-- CONTENT -->
 
-    <div class="market-container">
+    <main class="marketplace-content">
+
 
         <div class="results-header">
 
@@ -407,7 +431,7 @@
                 <div class="results-count">
 
                     {% if providers %}
-                        {{ providers|length }} professional{{ providers|length|pluralize }} found
+                        {{ providers|length }} professionals found
                     {% else %}
                         No professionals found
                     {% endif %}
@@ -421,13 +445,14 @@
 
         {% if providers %}
 
-            <div class="professional-grid">
+            <div class="professionals-grid">
 
                 {% for provider in providers %}
 
-                    <div class="professional-card">
+                    <article class="professional-card">
 
-                        <!-- PROFILE HEADER -->
+
+                        <!-- IMAGE -->
 
                         <div class="profile-cover">
 
@@ -435,14 +460,13 @@
 
                                 <img
                                     src="{{ provider.profile_image.url }}"
-                                    class="profile-image"
                                     alt="{{ provider.business_name }}"
                                 >
 
                             {% else %}
 
                                 <div class="profile-placeholder">
-                                    👤
+                                    📸
                                 </div>
 
                             {% endif %}
@@ -459,9 +483,10 @@
                         </div>
 
 
-                        <!-- CARD CONTENT -->
+                        <!-- BODY -->
 
                         <div class="card-body">
+
 
                             <h3 class="business-name">
                                 {{ provider.business_name }}
@@ -473,24 +498,29 @@
                             </div>
 
 
-                            <p class="description">
+                            {% if provider.description %}
 
-                                {% if provider.description %}
+                                <p class="description">
 
                                     {{ provider.description|truncatechars:100 }}
 
-                                {% else %}
+                                </p>
 
-                                    Professional event service provider.
+                            {% else %}
 
-                                {% endif %}
+                                <p class="description">
 
-                            </p>
+                                    Professional event services
+                                    for your special moments.
+
+                                </p>
+
+                            {% endif %}
 
 
                             <!-- SERVICES -->
 
-                            <div class="service-tags">
+                            <div class="service-list">
 
                                 {% for ps in provider.provider_services.all|slice:":3" %}
 
@@ -509,29 +539,37 @@
                             </div>
 
 
-                            <!-- PRICE / EXPERIENCE -->
+                            <!-- INFO -->
 
-                            <div class="card-info">
+                            <div class="professional-info">
 
-                                <div>
 
-                                    <span class="price-label">
-                                        Starting from
-                                    </span>
+                                <div class="experience">
+
+                                    <strong>
+                                        {{ provider.experience_years }}+
+                                    </strong>
+
+                                    Years Experience
+
+                                </div>
+
+
+                                <div class="price">
 
                                     {% with first_service=provider.provider_services.all|first %}
 
                                         {% if first_service %}
 
-                                            <span class="price">
-                                                ₹{{ first_service.starting_price|floatformat:0 }}
-                                            </span>
+                                            Starting from
+
+                                            <strong>
+                                                ₹{{ first_service.starting_price }}
+                                            </strong>
 
                                         {% else %}
 
-                                            <span class="price">
-                                                Contact
-                                            </span>
+                                            Contact for price
 
                                         {% endif %}
 
@@ -540,16 +578,6 @@
                                 </div>
 
 
-                                <div class="experience">
-
-                                    ⭐ Trusted<br>
-
-                                    {{ provider.experience_years }}
-                                    year{{ provider.experience_years|pluralize }}
-                                    experience
-
-                                </div>
-
                             </div>
 
 
@@ -557,14 +585,15 @@
 
                             <a
                                 href="{% url 'professional_detail' provider.id %}"
-                                class="view-btn"
+                                class="profile-button"
                             >
                                 View Profile →
                             </a>
 
+
                         </div>
 
-                    </div>
+                    </article>
 
                 {% endfor %}
 
@@ -580,18 +609,20 @@
                 </div>
 
                 <h3>
-                    No professionals found
+                    No Professionals Found
                 </h3>
 
                 <p>
-                    Try changing your search, location or service filter.
+                    Try changing your search,
+                    location or service filter.
                 </p>
 
             </div>
 
         {% endif %}
 
-    </div>
+
+    </main>
 
 </div>
 

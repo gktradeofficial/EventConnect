@@ -1,196 +1,615 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block title %}Add Service | EventSetu{% endblock %}
 
-    <meta charset="UTF-8">
+{% block content %}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<style>
 
-    <title>Add Service - EventConnect</title>
+    .service-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(circle at 10% 10%, rgba(245,158,11,.10), transparent 30%),
+            radial-gradient(circle at 90% 90%, rgba(17,24,39,.06), transparent 35%),
+            #f6f7fb;
+        padding: 45px 20px 80px;
+    }
 
-    <style>
+    .service-wrapper {
+        max-width: 1000px;
+        margin: auto;
+    }
 
-        * {
+    /* HEADER */
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        transition: .2s;
+    }
+
+    .back-link:hover {
+        color: #d97706;
+    }
+
+    .page-header h1 {
+        color: #111827;
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
+
+    .page-header p {
+        color: #6b7280;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* LAYOUT */
+
+    .service-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 25px;
+        align-items: start;
+    }
+
+    /* SIDE CARD */
+
+    .info-card {
+        background: linear-gradient(145deg, #111827, #1f2937);
+        color: white;
+        border-radius: 22px;
+        padding: 28px;
+        position: sticky;
+        top: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(17,24,39,.14);
+    }
+
+    .info-card::after {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: rgba(245,158,11,.08);
+        right: -90px;
+        top: -80px;
+    }
+
+    .info-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 18px;
+        background: rgba(245,158,11,.14);
+        border: 1px solid rgba(245,158,11,.20);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-bottom: 22px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .info-card h2 {
+        font-size: 23px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .info-card > p {
+        color: #d1d5db;
+        font-size: 13px;
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tips {
+        border-top: 1px solid rgba(255,255,255,.12);
+        margin-top: 25px;
+        padding-top: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tip {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        color: #d1d5db;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .tip:last-child {
+        margin-bottom: 0;
+    }
+
+    .tip-icon {
+        color: #fbbf24;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    /* FORM CARD */
+
+    .form-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.06);
+    }
+
+    .form-header {
+        padding-bottom: 22px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .form-header h2 {
+        color: #111827;
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
+    .form-header p {
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    /* FORM */
+
+    .form-group {
+        margin-bottom: 23px;
+    }
+
+    label {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+    .field-description {
+        color: #9ca3af;
+        font-size: 11px;
+        margin-top: 7px;
+    }
+
+    select,
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d1d5db;
+        border-radius: 11px;
+        padding: 14px;
+        background: white;
+        color: #111827;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: .2s;
+    }
+
+    select:focus,
+    input:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    select {
+        cursor: pointer;
+    }
+
+    /* PRICE */
+
+    .price-wrapper {
+        position: relative;
+    }
+
+    .price-symbol {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6b7280;
+        font-weight: 800;
+        z-index: 1;
+    }
+
+    .price-input {
+        padding-left: 32px;
+    }
+
+    /* NOTICE */
+
+    .notice {
+        display: flex;
+        gap: 11px;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 25px;
+    }
+
+    .notice-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .notice p {
+        color: #92400e;
+        font-size: 12px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* BUTTON AREA */
+
+    .button-area {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+        margin-top: 30px;
+    }
+
+    .cancel-button {
+        color: #6b7280;
+        border: 1px solid #d1d5db;
+        background: white;
+        padding: 13px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+        transition: .2s;
+    }
+
+    .cancel-button:hover {
+        border-color: #9ca3af;
+        color: #111827;
+    }
+
+    .submit-button {
+        border: none;
+        cursor: pointer;
+        padding: 14px 25px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #111827;
+        font-size: 13px;
+        font-weight: 900;
+        box-shadow: 0 7px 18px rgba(245,158,11,.22);
+        transition: .2s;
+    }
+
+    .submit-button:hover {
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 10px 25px rgba(245,158,11,.30);
+    }
+
+    /* ERROR */
+
+    .error-message {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+        .service-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .info-card {
+            position: static;
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .service-page {
+            padding: 30px 15px 60px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+        }
+
+        .form-card {
+            padding: 23px;
+        }
+
+        .button-area {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .cancel-button,
+        .submit-button {
+            width: 100%;
+            text-align: center;
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f6f8;
-            color: #111827;
-        }
+    }
 
-        header {
-            background: #111827;
-            padding: 18px 7%;
-        }
-
-        .logo {
-            color: white;
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: #f59e0b;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,.08);
-        }
-
-        h1 {
-            margin-top: 0;
-        }
-
-        .subtitle {
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        select,
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 28px;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #f59e0b;
-            color: #111827;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-            color: #6b7280;
-            text-decoration: none;
-        }
-
-    </style>
-
-</head>
+</style>
 
 
-<body>
+<div class="service-page">
+
+    <div class="service-wrapper">
 
 
-<header>
+        <!-- HEADER -->
 
-    <div class="logo">
-        Event<span>Connect</span>
-    </div>
+        <div class="page-header">
 
-</header>
-
-
-<div class="container">
-
-    <div class="card">
-
-        <h1>
-            Add a Service
-        </h1>
-
-        <p class="subtitle">
-            Add a service that you provide to customers.
-        </p>
-
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-
-            <label>
-                Select Service
-            </label>
-
-            <select name="service" required>
-
-                <option value="">
-                    -- Select a Service --
-                </option>
-
-                {% for service in services %}
-
-                <option value="{{ service.id }}">
-
-                    {{ service.category.name }}
-                    —
-                    {{ service.name }}
-
-                </option>
-
-                {% endfor %}
-
-            </select>
-
-
-            <label>
-                Starting Price (₹)
-            </label>
-
-            <input
-                type="number"
-                name="starting_price"
-                min="0"
-                step="0.01"
-                placeholder="Example: 15000"
-                required
+            <a
+                href="{% url 'professional_dashboard' %}"
+                class="back-link"
             >
+                ← Back to Dashboard
+            </a>
+
+            <h1>
+                Add a Service
+            </h1>
+
+            <p>
+                Add the services you offer so customers can discover
+                your expertise and starting prices on EventSetu.
+            </p>
+
+        </div>
 
 
-            <button type="submit">
-                Add Service
-            </button>
+        <!-- LAYOUT -->
 
-        </form>
+        <div class="service-layout">
 
 
-        <a
-            href="/professionals/dashboard/"
-            class="back"
-        >
-            ← Back to Dashboard
-        </a>
+            <!-- INFO -->
+
+            <aside class="info-card">
+
+                <div class="info-icon">
+                    ✨
+                </div>
+
+                <h2>
+                    Showcase Your Services
+                </h2>
+
+                <p>
+                    Give customers a clear idea of what you offer
+                    and how much your service starts from.
+                </p>
+
+
+                <div class="tips">
+
+                    <div class="tip">
+
+                        <span class="tip-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            Choose the service that best matches
+                            your expertise.
+                        </span>
+
+                    </div>
+
+
+                    <div class="tip">
+
+                        <span class="tip-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            Enter a realistic starting price.
+                        </span>
+
+                    </div>
+
+
+                    <div class="tip">
+
+                        <span class="tip-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            You can add more services later
+                            from your dashboard.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- FORM -->
+
+            <section class="form-card">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Service Information
+                    </h2>
+
+                    <p>
+                        Fill in the details below to publish
+                        this service on your professional profile.
+                    </p>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        💡
+                    </div>
+
+                    <p>
+                        Your service will become visible to customers
+                        when they visit your professional profile.
+                    </p>
+
+                </div>
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- SERVICE -->
+
+                    <div class="form-group">
+
+                        <label for="service">
+
+                            Service
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <select
+                            name="service"
+                            id="service"
+                            required
+                        >
+
+                            <option value="">
+                                Select a service
+                            </option>
+
+                            {% for service in services %}
+
+                                <option value="{{ service.id }}">
+                                    {{ service.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                        <div class="field-description">
+                            Select the type of service you provide.
+                        </div>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="form-group">
+
+                        <label for="starting_price">
+
+                            Starting Price
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <div class="price-wrapper">
+
+                            <span class="price-symbol">
+                                ₹
+                            </span>
+
+                            <input
+                                type="number"
+                                name="starting_price"
+                                id="starting_price"
+                                class="price-input"
+                                placeholder="e.g. 15000"
+                                min="0"
+                                step="1"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="field-description">
+                            This will be displayed as your starting price.
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-area">
+
+                        <a
+                            href="{% url 'professional_dashboard' %}"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="submit-button"
+                        >
+                            ✨ Add Service
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </section>
+
+        </div>
 
     </div>
 
 </div>
 
-
-</body>
-
-</html>
+{% endblock %}

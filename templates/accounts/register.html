@@ -1,498 +1,858 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-    <title>Join EventConnect</title>
+{% block title %}Create Account | EventSetu{% endblock %}
 
-    <style>
+{% block content %}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f5f7;
-            color: #111827;
-        }
+    .register-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(circle at 10% 10%, rgba(245,158,11,.12), transparent 30%),
+            radial-gradient(circle at 90% 90%, rgba(17,24,39,.08), transparent 35%),
+            #f6f7fb;
 
-        .container {
-            max-width: 850px;
-            margin: 50px auto;
-            padding: 20px;
-        }
+        padding: 45px 20px 80px;
+    }
 
-        .card {
-            background: white;
-            border-radius: 18px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        }
+    .register-wrapper {
+        max-width: 1100px;
+        margin: auto;
 
-        .logo {
-            text-align: center;
-            font-size: 30px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+        display: grid;
+        grid-template-columns: 390px 1fr;
 
-        .logo span {
-            color: #f59e0b;
-        }
+        background: white;
+        border-radius: 26px;
+        overflow: hidden;
 
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 35px;
-        }
+        border: 1px solid #e5e7eb;
 
-        .role-box {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+        box-shadow: 0 20px 60px rgba(0,0,0,.10);
+    }
 
-        .role {
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
 
-        .role:hover {
-            border-color: #f59e0b;
-        }
+    /* =========================
+       LEFT PANEL
+    ========================= */
 
-        .role input {
-            margin-right: 8px;
-        }
-
-        .role strong {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .role small {
-            color: #6b7280;
-        }
-
-        .section-title {
-            font-size: 20px;
-            margin: 25px 0 18px;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 10px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .field.full {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 7px;
-            font-size: 14px;
-        }
-
-        input,
-        select,
-        textarea {
-            padding: 13px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #f59e0b;
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .professional-section {
-            display: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            margin-top: 30px;
-            padding: 15px;
-            border: none;
-            border-radius: 9px;
-            background: #f59e0b;
-            color: #111827;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover {
-            background: #d97706;
-            color: white;
-        }
-
-        .login {
-            text-align: center;
-            margin-top: 20px;
-            color: #6b7280;
-        }
-
-        .login a {
-            color: #d97706;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .errors {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        @media(max-width: 650px) {
-
-            .card {
-                padding: 25px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .field.full {
-                grid-column: auto;
-            }
-
-            .role-box {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="card">
-
-        <div class="logo">
-            Event<span>Connect</span>
-        </div>
-
-        <p class="subtitle">
-            Connect with the right people for your event
-        </p>
-
-
-        {% if form.errors %}
-
-        <div class="errors">
-
-            Please correct the errors below.
-
-        </div>
-
-        {% endif %}
-
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-
-            <h2 class="section-title">
-                Choose Account Type
-            </h2>
-
-
-            <div class="role-box">
-
-                <label class="role">
-
-                    <input
-                        type="radio"
-                        name="role"
-                        value="customer"
-                        checked
-                    >
-
-                    <strong>👤 Customer</strong>
-
-                    <small>
-                        I need professionals for my event
-                    </small>
-
-                </label>
-
-
-                <label class="role">
-
-                    <input
-                        type="radio"
-                        name="role"
-                        value="professional"
-                    >
-
-                    <strong>📸 Professional</strong>
-
-                    <small>
-                        I want to offer my services
-                    </small>
-
-                </label>
-
-            </div>
-
-
-            <h2 class="section-title">
-                Account Information
-            </h2>
-
-
-            <div class="form-grid">
-
-                <div class="field">
-
-                    <label>Username</label>
-
-                    {{ form.username }}
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>Email</label>
-
-                    {{ form.email }}
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>Password</label>
-
-                    {{ form.password }}
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>Confirm Password</label>
-
-                    {{ form.password_confirm }}
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>Phone</label>
-
-                    {{ form.phone }}
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>Location</label>
-
-                    {{ form.location }}
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="professional-section"
-                id="professionalSection"
-            >
-
-                <h2 class="section-title">
-                    Professional Details
-                </h2>
-
-
-                <div class="form-grid">
-
-                    <div class="field full">
-
-                        <label>
-                            Business / Brand Name
-                        </label>
-
-                        {{ form.business_name }}
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            Service
-                        </label>
-
-                        {{ form.service }}
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            Experience (Years)
-                        </label>
-
-                        {{ form.experience_years }}
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            Starting Price (₹)
-                        </label>
-
-                        {{ form.starting_price }}
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label>
-                            Service Area
-                        </label>
-
-                        {{ form.service_area }}
-
-                    </div>
-
-
-                    <div class="field full">
-
-                        <label>
-                            About Your Business
-                        </label>
-
-                        {{ form.description }}
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="submit-btn"
-            >
-                Create Account
-            </button>
-
-
-            <div class="login">
-
-                Already have an account?
-
-                <a href="/accounts/login/">
-                    Login
-                </a>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<script>
-
-    const roles =
-        document.querySelectorAll(
-            'input[name="role"]'
-        );
-
-    const professionalSection =
-        document.getElementById(
-            'professionalSection'
-        );
-
-
-    function updateForm() {
-
-        const selected =
-            document.querySelector(
-                'input[name="role"]:checked'
+    .register-intro {
+        background:
+            radial-gradient(
+                circle at 85% 15%,
+                rgba(245,158,11,.22),
+                transparent 30%
+            ),
+            linear-gradient(
+                145deg,
+                #111827,
+                #1f2937
             );
 
-        if (
-            selected &&
-            selected.value === 'professional'
-        ) {
+        color: white;
 
-            professionalSection.style.display =
-                'block';
+        padding: 50px 40px;
 
-        } else {
+        position: relative;
+        overflow: hidden;
+    }
 
-            professionalSection.style.display =
-                'none';
+    .register-intro::before {
+        content: "";
 
+        position: absolute;
+
+        width: 280px;
+        height: 280px;
+
+        border-radius: 50%;
+
+        background: rgba(245,158,11,.07);
+
+        right: -120px;
+        bottom: -100px;
+    }
+
+    .intro-icon {
+        width: 65px;
+        height: 65px;
+
+        border-radius: 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 30px;
+
+        background: rgba(245,158,11,.15);
+
+        border: 1px solid rgba(245,158,11,.25);
+
+        margin-bottom: 25px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+    .register-intro h1 {
+        font-size: 36px;
+        line-height: 1.15;
+
+        margin-bottom: 17px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+    .register-intro h1 span {
+        color: #f59e0b;
+    }
+
+    .intro-text {
+        color: #d1d5db;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+
+        margin-bottom: 30px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+
+    /* BENEFITS */
+
+    .benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+
+        position: relative;
+        z-index: 1;
+    }
+
+    .benefit {
+        display: flex;
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .benefit-icon {
+        width: 30px;
+        height: 30px;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(16,185,129,.15);
+
+        color: #34d399;
+
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .benefit-content strong {
+        display: block;
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+    .benefit-content span {
+        color: #9ca3af;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       FORM AREA
+    ========================= */
+
+    .register-form-area {
+        padding: 48px 55px;
+    }
+
+    .register-header {
+        margin-bottom: 28px;
+    }
+
+    .register-header h2 {
+        color: #111827;
+
+        font-size: 29px;
+
+        margin-bottom: 7px;
+    }
+
+    .register-header p {
+        color: #6b7280;
+
+        font-size: 14px;
+    }
+
+
+    /* DJANGO ERRORS */
+
+    .form-errors {
+        background: #fef2f2;
+
+        border: 1px solid #fecaca;
+
+        color: #b91c1c;
+
+        border-radius: 11px;
+
+        padding: 13px 15px;
+
+        margin-bottom: 22px;
+
+        font-size: 13px;
+
+        line-height: 1.6;
+    }
+
+    .field-error {
+        color: #dc2626;
+
+        font-size: 11px;
+
+        margin-top: 2px;
+    }
+
+
+    /* FORM */
+
+    .registration-form {
+        display: flex;
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .form-row {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 16px;
+    }
+
+    .form-group {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 7px;
+    }
+
+    .form-group label {
+        color: #374151;
+
+        font-size: 13px;
+
+        font-weight: 700;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+
+        border-radius: 11px;
+
+        background: white;
+
+        color: #111827;
+
+        font-family: inherit;
+
+        font-size: 14px;
+
+        outline: none;
+
+        transition: .2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #f59e0b;
+
+        box-shadow:
+            0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .help-text {
+        color: #9ca3af;
+
+        font-size: 10px;
+
+        line-height: 1.5;
+    }
+
+
+    /* DJANGO SELECT */
+
+    .form-group select {
+        cursor: pointer;
+    }
+
+
+    /* TERMS */
+
+    .terms {
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 9px;
+
+        background: #f9fafb;
+
+        border: 1px solid #f0f0f0;
+
+        border-radius: 11px;
+
+        padding: 13px;
+
+        margin-top: 3px;
+    }
+
+    .terms input {
+        margin-top: 3px;
+
+        accent-color: #f59e0b;
+    }
+
+    .terms label {
+        color: #6b7280;
+
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+
+    /* BUTTON */
+
+    .register-button {
+        width: 100%;
+
+        border: none;
+
+        padding: 15px;
+
+        border-radius: 11px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #f59e0b,
+                #d97706
+            );
+
+        color: #111827;
+
+        font-size: 15px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 8px 20px rgba(245,158,11,.22);
+
+        transition: .2s;
+    }
+
+    .register-button:hover {
+        transform: translateY(-2px);
+
+        color: white;
+
+        box-shadow:
+            0 12px 28px rgba(245,158,11,.30);
+    }
+
+
+    /* LOGIN */
+
+    .login-link {
+        text-align: center;
+
+        margin-top: 20px;
+
+        color: #6b7280;
+
+        font-size: 13px;
+    }
+
+    .login-link a {
+        color: #d97706;
+
+        font-weight: 800;
+
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        color: #b45309;
+    }
+
+
+    .security-note {
+        text-align: center;
+
+        color: #9ca3af;
+
+        font-size: 10px;
+
+        margin-top: 15px;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+        .register-wrapper {
+            grid-template-columns: 1fr;
+
+            max-width: 650px;
+        }
+
+        .register-intro {
+            padding: 38px;
+        }
+
+        .register-form-area {
+            padding: 40px;
         }
 
     }
 
 
-    roles.forEach(function(role) {
+    @media (max-width: 600px) {
 
-        role.addEventListener(
-            'change',
-            updateForm
-        );
+        .register-page {
+            padding: 25px 15px 60px;
+        }
 
-    });
+        .register-intro {
+            padding: 30px 25px;
+        }
+
+        .register-intro h1 {
+            font-size: 30px;
+        }
+
+        .register-form-area {
+            padding: 30px 22px;
+        }
+
+        .register-header h2 {
+            font-size: 26px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
 
 
-    updateForm();
+<div class="register-page">
 
-</script>
+    <div class="register-wrapper">
 
-</body>
-</html>
+
+        <!-- =========================
+             INTRO
+        ========================= -->
+
+        <section class="register-intro">
+
+            <div class="intro-icon">
+                🎉
+            </div>
+
+            <h1>
+                Join
+                <span>EventSetu</span>
+            </h1>
+
+            <p class="intro-text">
+                Create your account and become part of a growing
+                community connecting customers with trusted event
+                professionals.
+            </p>
+
+
+            <div class="benefits">
+
+                <div class="benefit">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div class="benefit-content">
+
+                        <strong>
+                            Find the Right Professional
+                        </strong>
+
+                        <span>
+                            Discover photographers, videographers
+                            and more.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="benefit">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div class="benefit-content">
+
+                        <strong>
+                            Direct Enquiries
+                        </strong>
+
+                        <span>
+                            Contact professionals directly about
+                            your event.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="benefit">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div class="benefit-content">
+
+                        <strong>
+                            Showcase Your Work
+                        </strong>
+
+                        <span>
+                            Professionals can display services,
+                            packages and portfolio.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="benefit">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div class="benefit-content">
+
+                        <strong>
+                            Simple & Secure
+                        </strong>
+
+                        <span>
+                            Manage your EventSetu account easily.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FORM
+        ========================= -->
+
+        <section class="register-form-area">
+
+            <div class="register-header">
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Fill in your details to get started.
+                </p>
+
+            </div>
+
+
+            <!-- NON FIELD ERRORS -->
+
+            {% if form.non_field_errors %}
+
+                <div class="form-errors">
+
+                    {% for error in form.non_field_errors %}
+
+                        {{ error }}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <form
+                method="POST"
+                class="registration-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME + EMAIL -->
+
+                <div class="form-row">
+
+                    {% if form.username %}
+
+                        <div class="form-group">
+
+                            <label for="{{ form.username.id_for_label }}">
+                                Username
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.username }}
+
+                            {% for error in form.username.errors %}
+
+                                <span class="field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if form.email %}
+
+                        <div class="form-group">
+
+                            <label for="{{ form.email.id_for_label }}">
+                                Email
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.email }}
+
+                            {% for error in form.email.errors %}
+
+                                <span class="field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PASSWORDS -->
+
+                <div class="form-row">
+
+                    {% if form.password1 %}
+
+                        <div class="form-group">
+
+                            <label for="{{ form.password1.id_for_label }}">
+                                Password
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.password1 }}
+
+                            {% for error in form.password1.errors %}
+
+                                <span class="field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if form.password2 %}
+
+                        <div class="form-group">
+
+                            <label for="{{ form.password2.id_for_label }}">
+                                Confirm Password
+                                <span class="required">*</span>
+                            </label>
+
+                            {{ form.password2 }}
+
+                            {% for error in form.password2.errors %}
+
+                                <span class="field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- OTHER FORM FIELDS -->
+
+                {% for field in form %}
+
+                    {% if field.name != "username" and field.name != "email" and field.name != "password1" and field.name != "password2" %}
+
+                        <div class="form-group">
+
+                            <label for="{{ field.id_for_label }}">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+                                    <span class="required">*</span>
+                                {% endif %}
+
+                            </label>
+
+                            {{ field }}
+
+                            {% if field.help_text %}
+
+                                <span class="help-text">
+                                    {{ field.help_text|safe }}
+                                </span>
+
+                            {% endif %}
+
+                            {% for error in field.errors %}
+
+                                <span class="field-error">
+                                    {{ error }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                <!-- TERMS -->
+
+                <div class="terms">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label for="terms">
+                        I agree to use EventSetu responsibly and
+                        provide accurate information for my account.
+                    </label>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Create Account →
+                </button>
+
+            </form>
+
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="{% url 'login' %}">
+                    Sign in here
+                </a>
+
+            </div>
+
+
+            <div class="security-note">
+                🔒 Your account information is securely handled.
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,101 +1,893 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "base.html" %}
 
-    <title>Edit Professional Profile</title>
+{% block title %}Edit Profile | EventSetu{% endblock %}
 
-</head>
+{% block content %}
 
-<body>
+<style>
 
-    <h1>Edit Professional Profile</h1>
+    .edit-profile-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(circle at 8% 10%, rgba(245,158,11,.10), transparent 30%),
+            radial-gradient(circle at 90% 90%, rgba(17,24,39,.06), transparent 35%),
+            #f6f7fb;
+        padding: 45px 20px 80px;
+    }
 
-    <form method="POST" enctype="multipart/form-data">
+    .edit-wrapper {
+        max-width: 1100px;
+        margin: auto;
+    }
 
-        {% csrf_token %}
+    /* HEADER */
 
-        <label>Business Name</label>
-        <br>
-        <input
-            type="text"
-            name="business_name"
-            value="{{ provider.business_name }}"
-            required
-        >
+    .page-header {
+        margin-bottom: 30px;
+    }
 
-        <br><br>
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        transition: .2s;
+    }
 
-        <label>Description</label>
-        <br>
-        <textarea
-            name="description"
-            rows="5"
-        >{{ provider.description }}</textarea>
+    .back-link:hover {
+        color: #d97706;
+    }
 
-        <br><br>
+    .page-header h1 {
+        color: #111827;
+        font-size: 36px;
+        margin-bottom: 8px;
+    }
 
-        <label>Location</label>
-        <br>
-        <input
-            type="text"
-            name="location"
-            value="{{ provider.location }}"
-            required
-        >
+    .page-header p {
+        color: #6b7280;
+        font-size: 15px;
+        line-height: 1.6;
+    }
 
-        <br><br>
+    /* LAYOUT */
 
-        <label>Service Area</label>
-        <br>
-        <input
-            type="text"
-            name="service_area"
-            value="{{ provider.service_area }}"
-        >
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 25px;
+        align-items: start;
+    }
 
-        <br><br>
+    /* PREVIEW CARD */
 
-        <label>Experience (Years)</label>
-        <br>
-        <input
-            type="number"
-            name="experience_years"
-            value="{{ provider.experience_years }}"
-            min="0"
-        >
+    .preview-card {
+        background: linear-gradient(145deg, #111827, #1f2937);
+        border-radius: 22px;
+        padding: 30px;
+        color: white;
+        position: sticky;
+        top: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(17,24,39,.16);
+    }
 
-        <br><br>
+    .preview-card::before {
+        content: "";
+        position: absolute;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: rgba(245,158,11,.08);
+        right: -80px;
+        top: -80px;
+    }
 
-        <label>Profile Photo</label>
-        <br>
+    .preview-label {
+        color: #9ca3af;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+    }
 
-        {% if provider.profile_image %}
-            <img
-                src="{{ provider.profile_image.url }}"
-                width="120"
+    .profile-photo {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #374151;
+        border: 5px solid rgba(255,255,255,.12);
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .profile-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .photo-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 42px;
+    }
+
+    .verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(16,185,129,.14);
+        color: #6ee7b7;
+        border: 1px solid rgba(16,185,129,.22);
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 900;
+        margin-bottom: 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .preview-card h2 {
+        font-size: 23px;
+        margin-bottom: 9px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .preview-location {
+        color: #d1d5db;
+        font-size: 13px;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .preview-info {
+        border-top: 1px solid rgba(255,255,255,.12);
+        padding-top: 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .preview-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 9px 0;
+        font-size: 12px;
+    }
+
+    .preview-row span {
+        color: #9ca3af;
+    }
+
+    .preview-row strong {
+        color: white;
+        text-align: right;
+    }
+
+    .preview-note {
+        margin-top: 22px;
+        padding: 12px;
+        border-radius: 11px;
+        background: rgba(255,255,255,.06);
+        color: #d1d5db;
+        font-size: 11px;
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* FORM CARD */
+
+    .form-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.06);
+    }
+
+    .form-header {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 22px;
+        margin-bottom: 28px;
+    }
+
+    .form-header h2 {
+        color: #111827;
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
+    .form-header p {
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    /* SECTION */
+
+    .form-section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #111827;
+        font-size: 16px;
+        font-weight: 900;
+        margin-bottom: 18px;
+    }
+
+    .section-number {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #fff7ed;
+        color: #d97706;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    /* GRID */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d1d5db;
+        border-radius: 11px;
+        padding: 14px;
+        font-family: inherit;
+        font-size: 14px;
+        color: #111827;
+        background: white;
+        outline: none;
+        transition: .2s;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    textarea {
+        min-height: 150px;
+        resize: vertical;
+        line-height: 1.7;
+    }
+
+    .field-help {
+        color: #9ca3af;
+        font-size: 11px;
+        margin-top: 7px;
+        line-height: 1.5;
+    }
+
+    /* PHOTO UPLOAD */
+
+    .photo-upload {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        border: 1px dashed #d1d5db;
+        background: #fafafa;
+        border-radius: 15px;
+    }
+
+    .upload-preview {
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e5e7eb;
+        flex-shrink: 0;
+        border: 3px solid white;
+        box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    }
+
+    .upload-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .upload-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    .upload-content strong {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .upload-content p {
+        color: #9ca3af;
+        font-size: 11px;
+        margin-bottom: 12px;
+    }
+
+    .upload-content input {
+        padding: 0;
+        border: none;
+        background: transparent;
+        font-size: 11px;
+    }
+
+    /* NOTICE */
+
+    .notice {
+        display: flex;
+        gap: 10px;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 28px;
+    }
+
+    .notice-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .notice p {
+        color: #92400e;
+        font-size: 12px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* BUTTON */
+
+    .button-area {
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .cancel-button {
+        text-decoration: none;
+        color: #6b7280;
+        border: 1px solid #d1d5db;
+        padding: 13px 20px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        transition: .2s;
+    }
+
+    .cancel-button:hover {
+        color: #111827;
+        border-color: #9ca3af;
+    }
+
+    .save-button {
+        border: none;
+        cursor: pointer;
+        padding: 14px 27px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #111827;
+        font-size: 13px;
+        font-weight: 900;
+        box-shadow: 0 7px 18px rgba(245,158,11,.22);
+        transition: .2s;
+    }
+
+    .save-button:hover {
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 11px 25px rgba(245,158,11,.30);
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+        .profile-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .preview-card {
+            position: static;
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .edit-profile-page {
+            padding: 30px 15px 60px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+        }
+
+        .form-card {
+            padding: 23px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .photo-upload {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .button-area {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .cancel-button,
+        .save-button {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+    }
+
+</style>
+
+
+<div class="edit-profile-page">
+
+    <div class="edit-wrapper">
+
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <a
+                href="{% url 'professional_dashboard' %}"
+                class="back-link"
             >
-            <br><br>
-        {% endif %}
+                ← Back to Dashboard
+            </a>
 
-        <input
-            type="file"
-            name="profile_image"
-            accept="image/*"
-        >
+            <h1>
+                Edit Professional Profile
+            </h1>
 
-        <br><br>
+            <p>
+                Keep your professional profile updated so customers
+                can quickly understand your business and services.
+            </p>
 
-        <button type="submit">
-            Save Changes
-        </button>
+        </div>
 
-    </form>
 
-    <br>
+        <div class="profile-layout">
 
-    <a href="{% url 'professional_dashboard' %}">
-        ← Back to Dashboard
-    </a>
 
-</body>
-</html>
+            <!-- PROFILE PREVIEW -->
+
+            <aside class="preview-card">
+
+                <div class="preview-label">
+                    Profile Preview
+                </div>
+
+
+                <div class="profile-photo">
+
+                    {% if provider.profile_image %}
+
+                        <img
+                            src="{{ provider.profile_image.url }}"
+                            alt="{{ provider.business_name }}"
+                        >
+
+                    {% else %}
+
+                        <div class="photo-placeholder">
+                            📸
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                {% if provider.is_verified %}
+
+                    <div class="verified">
+                        ✓ Verified Professional
+                    </div>
+
+                {% endif %}
+
+
+                <h2>
+                    {{ provider.business_name|default:"Your Business Name" }}
+                </h2>
+
+
+                <div class="preview-location">
+                    📍 {{ provider.location|default:"Your Location" }}
+                </div>
+
+
+                <div class="preview-info">
+
+                    <div class="preview-row">
+
+                        <span>
+                            Experience
+                        </span>
+
+                        <strong>
+                            {{ provider.experience_years|default:"0" }}+ Years
+                        </strong>
+
+                    </div>
+
+
+                    <div class="preview-row">
+
+                        <span>
+                            Service Area
+                        </span>
+
+                        <strong>
+                            {{ provider.service_area|default:"Not specified" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="preview-note">
+                    💡 A complete profile builds trust and helps
+                    customers make better decisions.
+                </div>
+
+            </aside>
+
+
+            <!-- FORM -->
+
+            <section class="form-card">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Profile Information
+                    </h2>
+
+                    <p>
+                        Update your business details and profile photo.
+                    </p>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <div class="notice-icon">
+                        💡
+                    </div>
+
+                    <p>
+                        Make sure your information is accurate and
+                        professional. Customers will see these details
+                        on your public profile.
+                    </p>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- BUSINESS -->
+
+                    <div class="form-section">
+
+                        <div class="section-title">
+
+                            <span class="section-number">
+                                1
+                            </span>
+
+                            Business Information
+
+                        </div>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group full">
+
+                                <label for="business_name">
+
+                                    Business Name
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="business_name"
+                                    id="business_name"
+                                    value="{{ provider.business_name }}"
+                                    placeholder="e.g. Royal Wedding Photography"
+                                    maxlength="150"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="location">
+
+                                    Location
+                                    <span class="required">*</span>
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="location"
+                                    id="location"
+                                    value="{{ provider.location }}"
+                                    placeholder="e.g. Kolkata, West Bengal"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="service_area">
+                                    Service Area
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="service_area"
+                                    id="service_area"
+                                    value="{{ provider.service_area }}"
+                                    placeholder="e.g. Kolkata & nearby areas"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="experience_years">
+                                    Experience
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="experience_years"
+                                    id="experience_years"
+                                    value="{{ provider.experience_years }}"
+                                    min="0"
+                                    max="100"
+                                    placeholder="Years of experience"
+                                >
+
+                                <div class="field-help">
+                                    Enter your total professional experience.
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-section">
+
+                        <div class="section-title">
+
+                            <span class="section-number">
+                                2
+                            </span>
+
+                            About Your Business
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="description">
+                                Professional Description
+                            </label>
+
+                            <textarea
+                                name="description"
+                                id="description"
+                                placeholder="Tell customers about your experience, speciality, services, style and what makes your business different..."
+                            >{{ provider.description }}</textarea>
+
+                            <div class="field-help">
+                                Write a clear description that helps customers
+                                understand what you offer.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PHOTO -->
+
+                    <div class="form-section">
+
+                        <div class="section-title">
+
+                            <span class="section-number">
+                                3
+                            </span>
+
+                            Profile Photo
+
+                        </div>
+
+
+                        <div class="photo-upload">
+
+
+                            <div class="upload-preview">
+
+                                {% if provider.profile_image %}
+
+                                    <img
+                                        src="{{ provider.profile_image.url }}"
+                                        alt="Current profile photo"
+                                    >
+
+                                {% else %}
+
+                                    <div class="upload-placeholder">
+                                        📸
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="upload-content">
+
+                                <strong>
+                                    Update your profile photo
+                                </strong>
+
+                                <p>
+                                    Use a clear and professional image
+                                    that represents your business.
+                                </p>
+
+                                <input
+                                    type="file"
+                                    name="profile_image"
+                                    accept="image/*"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-area">
+
+                        <a
+                            href="{% url 'professional_dashboard' %}"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="save-button"
+                        >
+                            ✓ Save Profile Changes
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

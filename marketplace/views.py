@@ -478,3 +478,271 @@ def mark_enquiry_read(request, enquiry_id):
         enquiry.save(update_fields=['is_read'])
 
     return redirect('professional_dashboard')
+
+
+@login_required
+def edit_service(request, service_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    provider_service = get_object_or_404(
+        ProviderService,
+        id=service_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        starting_price = request.POST.get(
+            'starting_price'
+        )
+
+        provider_service.starting_price = starting_price
+        provider_service.save()
+
+        return redirect(
+            'professional_dashboard'
+        )
+
+    services = Service.objects.filter(
+        is_active=True
+    ).select_related('category')
+
+    return render(
+        request,
+        'marketplace/edit_service.html',
+        {
+            'provider_service': provider_service,
+            'services': services,
+        }
+    )
+
+
+@login_required
+def delete_service(request, service_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    provider_service = get_object_or_404(
+        ProviderService,
+        id=service_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+        provider_service.delete()
+
+    return redirect(
+        'professional_dashboard'
+    )
+
+
+@login_required
+def edit_portfolio(request, portfolio_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    portfolio = get_object_or_404(
+        PortfolioItem,
+        id=portfolio_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        portfolio.title = request.POST.get('title')
+        portfolio.media_type = request.POST.get(
+            'media_type'
+        )
+        portfolio.media_url = request.POST.get(
+            'media_url'
+        )
+        portfolio.description = request.POST.get(
+            'description'
+        )
+
+        portfolio.save()
+
+        return redirect(
+            'professional_dashboard'
+        )
+
+    return render(
+        request,
+        'marketplace/edit_portfolio.html',
+        {
+            'portfolio': portfolio
+        }
+    )
+
+
+@login_required
+def edit_availability(request, availability_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    availability = get_object_or_404(
+        Availability,
+        id=availability_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        availability.date = request.POST.get('date')
+
+        availability.is_available = (
+            request.POST.get('is_available') == 'true'
+        )
+
+        availability.save()
+
+        return redirect('professional_dashboard')
+
+    return redirect('professional_dashboard')
+
+
+@login_required
+def delete_availability(request, availability_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    availability = get_object_or_404(
+        Availability,
+        id=availability_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+        availability.delete()
+
+    return redirect('professional_dashboard')
+
+
+
+@login_required
+def edit_service(request, service_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    provider_service = get_object_or_404(
+        ProviderService,
+        id=service_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        provider_service.starting_price = request.POST.get(
+            'starting_price'
+        )
+
+        provider_service.save()
+
+        return redirect(
+            'professional_dashboard'
+        )
+
+    return render(
+        request,
+        'marketplace/edit_service.html',
+        {
+            'provider': provider,
+            'provider_service': provider_service
+        }
+    )
+
+
+@login_required
+def delete_service(request, service_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    provider_service = get_object_or_404(
+        ProviderService,
+        id=service_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        provider_service.delete()
+
+    return redirect(
+        'professional_dashboard'
+    )
+
+@login_required
+def edit_portfolio(request, portfolio_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    portfolio = get_object_or_404(
+        PortfolioItem,
+        id=portfolio_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+
+        portfolio.title = request.POST.get('title')
+        portfolio.media_type = request.POST.get('media_type')
+        portfolio.media_url = request.POST.get('media_url')
+        portfolio.description = request.POST.get('description')
+
+        portfolio.save()
+
+        return redirect('professional_dashboard')
+
+    return render(
+        request,
+        'marketplace/edit_portfolio.html',
+        {
+            'portfolio': portfolio
+        }
+    )
+
+
+@login_required
+def delete_portfolio(request, portfolio_id):
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        user=request.user
+    )
+
+    portfolio = get_object_or_404(
+        PortfolioItem,
+        id=portfolio_id,
+        provider=provider
+    )
+
+    if request.method == 'POST':
+        portfolio.delete()
+
+    return redirect('professional_dashboard')
+

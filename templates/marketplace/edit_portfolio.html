@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Portfolio | EventSetu{% endblock %}
+
+{% block content %}
+
+<div style="
+    max-width:700px;
+    margin:50px auto;
+    padding:30px;
+    background:white;
+    border-radius:18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+">
+
+    <h1 style="margin-bottom:25px;">
+        ✏️ Edit Portfolio
+    </h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Title</label>
+
+        <input
+            type="text"
+            name="title"
+            value="{{ portfolio.title }}"
+            required
+            style="width:100%;padding:13px;margin:8px 0 18px;border:1px solid #ddd;border-radius:9px;"
+        >
+
+        <label>Media Type</label>
+
+        <select
+            name="media_type"
+            style="width:100%;padding:13px;margin:8px 0 18px;border:1px solid #ddd;border-radius:9px;"
+        >
+
+            <option
+                value="image"
+                {% if portfolio.media_type == "image" %}selected{% endif %}
+            >
+                Image
+            </option>
+
+            <option
+                value="video"
+                {% if portfolio.media_type == "video" %}selected{% endif %}
+            >
+                Video
+            </option>
+
+        </select>
+
+        <label>Media URL</label>
+
+        <input
+            type="url"
+            name="media_url"
+            value="{{ portfolio.media_url }}"
+            placeholder="https://..."
+            style="width:100%;padding:13px;margin:8px 0 18px;border:1px solid #ddd;border-radius:9px;"
+        >
+
+        <label>Description</label>
+
+        <textarea
+            name="description"
+            rows="6"
+            style="width:100%;padding:13px;margin:8px 0 22px;border:1px solid #ddd;border-radius:9px;"
+        >{{ portfolio.description }}</textarea>
+
+        <button
+            type="submit"
+            style="
+                width:100%;
+                padding:14px;
+                border:none;
+                border-radius:9px;
+                background:#f59e0b;
+                font-weight:800;
+                cursor:pointer;
+            "
+        >
+            💾 Save Changes
+        </button>
+
+    </form>
+
+    <a
+        href="{% url 'professional_dashboard' %}"
+        style="
+            display:block;
+            text-align:center;
+            margin-top:15px;
+            text-decoration:none;
+            color:#6b7280;
+        "
+    >
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

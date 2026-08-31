@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Service | EventSetu{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .edit-page {
+        min-height: calc(100vh - 70px);
+        background: #f5f7fb;
+        padding: 50px 20px 80px;
+    }
+
+    .edit-container {
+        max-width: 650px;
+        margin: auto;
+    }
+
+    .edit-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.06);
+    }
+
+    .edit-header {
+        margin-bottom: 30px;
+    }
+
+    .edit-header h1 {
+        font-size: 30px;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .edit-header p {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .service-preview {
+        background: #111827;
+        color: white;
+        padding: 20px;
+        border-radius: 14px;
+        margin-bottom: 25px;
+    }
+
+    .service-preview span {
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+    .service-preview h2 {
+        margin-top: 5px;
+        font-size: 21px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    label {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    .category-info {
+        color: #6b7280;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .save-btn,
+    .cancel-btn {
+        flex: 1;
+        padding: 14px;
+        border-radius: 10px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .save-btn {
+        border: none;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #111827;
+    }
+
+    .cancel-btn {
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+    }
+
+    .save-btn:hover {
+        color: white;
+    }
+
+    .cancel-btn:hover {
+        border-color: #f59e0b;
+        color: #d97706;
+    }
+
+    @media (max-width: 600px) {
+
+        .edit-page {
+            padding: 30px 15px 60px;
+        }
+
+        .edit-card {
+            padding: 22px;
+        }
+
+        .edit-header h1 {
+            font-size: 26px;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+
+<div class="edit-page">
+
+    <div class="edit-container">
+
+        <div class="edit-card">
+
+            <div class="edit-header">
+
+                <h1>
+                    ✏️ Edit Service
+                </h1>
+
+                <p>
+                    Update your service pricing and details.
+                </p>
+
+            </div>
+
+
+            <div class="service-preview">
+
+                <span>
+                    SERVICE
+                </span>
+
+                <h2>
+                    {{ provider_service.service.name }}
+                </h2>
+
+                <div class="category-info">
+                    Category:
+                    {{ provider_service.service.category.name }}
+                </div>
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="starting_price">
+                        Starting Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="starting_price"
+                        id="starting_price"
+                        value="{{ provider_service.starting_price }}"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="actions">
+
+                    <a
+                        href="{% url 'professional_dashboard' %}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        💾 Save Changes
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

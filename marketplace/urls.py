@@ -94,4 +94,46 @@ urlpatterns = [
         name='mark_enquiry_read'
     ),
 
+    path(
+        'services/<int:service_id>/edit/',
+        views.edit_service,
+        name='edit_service'
+    ),
+
+    path(
+        'services/<int:service_id>/delete/',
+        views.delete_service,
+        name='delete_service'
+    ),
+
+    path(
+        'portfolio/<int:portfolio_id>/edit/',
+        views.edit_portfolio,
+        name='edit_portfolio'
+    ),
+
+    path(
+        'availability/<int:availability_id>/edit/',
+        views.edit_availability,
+        name='edit_availability'
+    ),
+
+    path(
+        'availability/<int:availability_id>/delete/',
+        views.delete_availability,
+        name='delete_availability'
+    ),
+
+    path(
+        'portfolio/<int:portfolio_id>/edit/',
+        views.edit_portfolio,
+        name='edit_portfolio'
+),
+
+    path(
+        'portfolio/<int:portfolio_id>/delete/',
+        views.delete_portfolio,
+        name='delete_portfolio'
+),
+
 ]

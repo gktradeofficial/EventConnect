@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}
-{{ provider.business_name }} | EventConnect
-{% endblock %}
+{% block title %}{{ provider.business_name }} | EventSetu{% endblock %}
 
 {% block content %}
 
@@ -10,388 +8,510 @@
 
     .profile-page {
         background: #f6f7fb;
-        min-height: 100vh;
-        padding-bottom: 70px;
+        min-height: calc(100vh - 70px);
+        padding-bottom: 80px;
+    }
+
+    .profile-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    /* BACK */
+
+    .back-top {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .back-top:hover {
+        color: #d97706;
     }
 
     /* HERO */
 
     .profile-hero {
         background:
-            linear-gradient(135deg, #111827, #1f2937);
+            radial-gradient(
+                circle at 85% 20%,
+                rgba(245,158,11,.18),
+                transparent 30%
+            ),
+            linear-gradient(135deg,#111827,#1f2937);
+
+        border-radius: 22px;
+        padding: 35px;
         color: white;
-        padding: 55px 7%;
+        box-shadow: 0 15px 40px rgba(0,0,0,.12);
     }
 
     .profile-hero-inner {
-        max-width: 1200px;
-        margin: auto;
-
-        display: grid;
-        grid-template-columns: 170px 1fr auto;
-        gap: 30px;
+        display: flex;
         align-items: center;
+        justify-content: space-between;
+        gap: 30px;
     }
 
-    .profile-photo {
-        width: 160px;
-        height: 160px;
+    .profile-left {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .profile-image {
+        width: 135px;
+        height: 135px;
         border-radius: 50%;
+        overflow: hidden;
+        background: #374151;
+        border: 4px solid rgba(255,255,255,.18);
+        flex-shrink: 0;
+        box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    }
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        border: 5px solid white;
-        background: #f3f4f6;
     }
 
     .profile-placeholder {
-        width: 160px;
-        height: 160px;
-        border-radius: 50%;
-        border: 5px solid white;
-
-        background: #f3f4f6;
-
+        width: 100%;
+        height: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
-
-        font-size: 65px;
+        justify-content: center;
+        font-size: 52px;
     }
 
-    .verified-badge {
-        display: inline-block;
-        background: #dcfce7;
-        color: #166534;
-        padding: 7px 13px;
+    .verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #10b981;
+        color: white;
+        padding: 6px 11px;
         border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 12px;
+        font-size: 11px;
+        font-weight: 800;
+        margin-bottom: 10px;
     }
 
-    .profile-name {
+    .profile-main h1 {
         font-size: 38px;
-        margin-bottom: 8px;
-    }
-
-    .profile-location {
-        color: #d1d5db;
-        font-size: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        line-height: 1.1;
     }
 
     .profile-meta {
         display: flex;
-        gap: 25px;
+        gap: 18px;
         flex-wrap: wrap;
-        color: #e5e7eb;
-        font-size: 14px;
-    }
-
-    .hero-action {
-        text-align: center;
-    }
-
-    .price-label {
         color: #d1d5db;
         font-size: 13px;
     }
 
-    .hero-price {
-        font-size: 28px;
-        font-weight: bold;
-        margin: 5px 0 18px;
-    }
+    /* HERO CTA */
 
-    .contact-btn {
-        display: inline-block;
+    .hero-contact {
         background: #f59e0b;
         color: #111827;
         text-decoration: none;
-
-        padding: 14px 28px;
+        padding: 14px 22px;
         border-radius: 10px;
-
-        font-weight: bold;
+        font-size: 14px;
+        font-weight: 800;
+        white-space: nowrap;
         transition: .2s;
     }
 
-    .contact-btn:hover {
-        background: #d97706;
+    .hero-contact:hover {
+        background: #fbbf24;
+        transform: translateY(-2px);
+    }
+
+    /* QUICK STATS */
+
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 14px;
+        margin-top: 20px;
+    }
+
+    .quick-stat {
+        background: rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 12px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .quick-stat strong {
+        display: block;
+        font-size: 20px;
         color: white;
     }
 
+    .quick-stat span {
+        display: block;
+        color: #9ca3af;
+        font-size: 11px;
+        margin-top: 4px;
+    }
 
-    /* MAIN */
+    /* CONTENT */
 
-    .profile-container {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
-
+    .profile-layout {
         display: grid;
         grid-template-columns: 2fr 1fr;
-        gap: 25px;
+        gap: 24px;
+        margin-top: 25px;
     }
 
-    .content-card {
+    .card {
         background: white;
-        border-radius: 18px;
-        padding: 28px;
-        margin-bottom: 25px;
-
         border: 1px solid #e5e7eb;
-
-        box-shadow: 0 6px 25px rgba(0,0,0,.05);
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 24px;
+        box-shadow: 0 6px 22px rgba(0,0,0,.04);
     }
 
-    .content-card h2 {
-        font-size: 24px;
-        color: #111827;
+    .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 20px;
     }
 
-    .about-text {
-        color: #6b7280;
-        line-height: 1.8;
-        font-size: 15px;
+    .card-title h2 {
+        font-size: 20px;
+        color: #111827;
     }
 
+    .card-title span {
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+    .description {
+        color: #6b7280;
+        line-height: 1.8;
+        font-size: 14px;
+    }
 
     /* SERVICES */
 
     .service-list {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 10px;
     }
 
     .service-item {
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 18px;
-
         display: flex;
         justify-content: space-between;
+        align-items: center;
         gap: 15px;
+        padding: 16px;
+        border: 1px solid #edf0f3;
+        border-radius: 12px;
+        background: #fafafa;
+        transition: .2s;
+    }
+
+    .service-item:hover {
+        background: #fffaf0;
+        border-color: #fde68a;
+        transform: translateX(3px);
     }
 
     .service-name {
-        font-weight: bold;
-        color: #111827;
-    }
-
-    .service-price {
-        color: #d97706;
-        font-weight: bold;
-        white-space: nowrap;
-    }
-
-
-    /* PACKAGES */
-
-    .package-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 20px;
-        margin-bottom: 15px;
-    }
-
-    .package-top {
         display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        margin-bottom: 10px;
-    }
-
-    .package-name {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .package-price {
-        color: #d97706;
-        font-weight: bold;
-        font-size: 19px;
-    }
-
-    .package-description {
-        color: #6b7280;
-        line-height: 1.6;
+        align-items: center;
+        gap: 11px;
+        font-weight: 700;
+        color: #374151;
         font-size: 14px;
     }
 
-
-    /* PORTFOLIO */
-
-    .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    .portfolio-item {
-        border-radius: 12px;
-        overflow: hidden;
-        background: #111827;
-        min-height: 170px;
-
+    .service-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: #fff7ed;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .portfolio-item img {
-        width: 100%;
-        height: 100%;
-        min-height: 170px;
-        object-fit: cover;
+    .service-price {
+        color: #d97706;
+        font-weight: 900;
+        font-size: 15px;
+        white-space: nowrap;
     }
 
-    .portfolio-placeholder {
-        color: white;
-        text-align: center;
+    /* PACKAGES */
+
+    .package-grid {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 15px;
+    }
+
+    .package {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
         padding: 20px;
+        position: relative;
+        transition: .2s;
     }
 
-    .portfolio-placeholder div {
-        font-size: 40px;
+    .package:hover {
+        border-color: #f59e0b;
+        box-shadow: 0 8px 20px rgba(245,158,11,.10);
+        transform: translateY(-3px);
+    }
+
+    .package-label {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 20px;
+        background: #fff7ed;
+        color: #d97706;
+        font-size: 10px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .package h3 {
+        color: #111827;
+        font-size: 16px;
         margin-bottom: 8px;
     }
 
+    .package p {
+        color: #6b7280;
+        font-size: 13px;
+        line-height: 1.6;
+        min-height: 42px;
+        margin-bottom: 15px;
+    }
+
+    .package-price {
+        color: #d97706;
+        font-size: 21px;
+        font-weight: 900;
+    }
+
+    /* PORTFOLIO */
+
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 12px;
+    }
+
+    .portfolio-item {
+        border-radius: 13px;
+        overflow: hidden;
+        background: #f3f4f6;
+        min-height: 190px;
+        position: relative;
+    }
+
+    .portfolio-item img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+        transition: .3s;
+    }
+
+    .portfolio-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .portfolio-placeholder {
+        height: 190px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 45px;
+    }
+
+    .portfolio-info {
+        padding: 11px;
+        background: white;
+    }
+
+    .portfolio-info strong {
+        font-size: 13px;
+        color: #111827;
+    }
+
+    .portfolio-info p {
+        color: #9ca3af;
+        font-size: 11px;
+        margin-top: 4px;
+    }
 
     /* SIDEBAR */
 
-    .info-card {
-        background: white;
-        border-radius: 18px;
-        padding: 25px;
-        border: 1px solid #e5e7eb;
-        margin-bottom: 25px;
-
-        box-shadow: 0 6px 25px rgba(0,0,0,.05);
+    .sticky-card {
+        position: sticky;
+        top: 20px;
     }
 
-    .info-card h3 {
-        margin-bottom: 20px;
-        font-size: 20px;
-    }
-
-    .info-row {
-        padding: 13px 0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .info-row:last-child {
-        border-bottom: none;
-    }
-
-    .info-label {
-        display: block;
-        color: #9ca3af;
-        font-size: 12px;
-        margin-bottom: 5px;
-    }
-
-    .info-value {
+    .contact-title {
+        font-size: 21px;
         color: #111827;
-        font-size: 14px;
-        font-weight: 600;
+        margin-bottom: 8px;
     }
 
-    .sidebar-contact {
-        width: 100%;
+    .contact-subtitle {
+        color: #6b7280;
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .contact-button {
         display: block;
+        width: 100%;
+        padding: 14px;
         text-align: center;
-        background: #111827;
-        color: white;
-        text-decoration: none;
-        padding: 13px;
-        border-radius: 9px;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-
-    .sidebar-contact:hover {
         background: #f59e0b;
         color: #111827;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 900;
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: .2s;
     }
 
+    .contact-button:hover {
+        background: #d97706;
+        color: white;
+    }
+
+    .outline-button {
+        display: block;
+        width: 100%;
+        padding: 13px;
+        text-align: center;
+        background: white;
+        color: #374151;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .outline-button:hover {
+        border-color: #f59e0b;
+        color: #d97706;
+    }
+
+    /* SERVICE AREA */
+
+    .area-box {
+        padding: 15px;
+        background: #f9fafb;
+        border-radius: 11px;
+        color: #6b7280;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .area-icon {
+        font-size: 20px;
+        margin-bottom: 7px;
+    }
 
     /* EMPTY */
 
-    .empty-message {
-        color: #9ca3af;
+    .empty {
+        padding: 25px 5px;
         text-align: center;
-        padding: 25px;
-        border: 1px dashed #d1d5db;
-        border-radius: 10px;
+        color: #9ca3af;
+        font-size: 13px;
     }
 
+    .empty-icon {
+        font-size: 34px;
+        margin-bottom: 8px;
+    }
 
     /* MOBILE */
 
-    @media(max-width: 900px) {
+    @media (max-width: 900px) {
 
         .profile-hero-inner {
-            grid-template-columns: 120px 1fr;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .profile-photo,
-        .profile-placeholder {
-            width: 115px;
-            height: 115px;
+        .hero-contact {
+            width: 100%;
+            text-align: center;
         }
 
-        .profile-placeholder {
-            font-size: 45px;
-        }
-
-        .hero-action {
-            grid-column: 1 / -1;
-            text-align: left;
-        }
-
-        .profile-container {
+        .profile-layout {
             grid-template-columns: 1fr;
+        }
+
+        .sticky-card {
+            position: static;
         }
 
     }
 
+    @media (max-width: 650px) {
 
-    @media(max-width: 600px) {
+        .profile-container {
+            padding: 18px 15px;
+        }
 
         .profile-hero {
-            padding: 40px 20px;
+            padding: 25px 20px;
         }
 
-        .profile-hero-inner {
-            grid-template-columns: 1fr;
-            text-align: center;
+        .profile-left {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .profile-photo,
-        .profile-placeholder {
-            margin: auto;
+        .profile-main h1 {
+            font-size: 28px;
         }
 
-        .profile-meta {
-            justify-content: center;
+        .profile-image {
+            width: 105px;
+            height: 105px;
         }
 
-        .profile-name {
-            font-size: 29px;
+        .quick-stats {
+            grid-template-columns: repeat(2,1fr);
         }
 
-        .hero-action {
-            text-align: center;
-        }
-
-        .service-list {
-            grid-template-columns: 1fr;
-        }
-
+        .package-grid,
         .portfolio-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            padding: 20px;
         }
 
     }
@@ -401,121 +521,145 @@
 
 <div class="profile-page">
 
+<div class="profile-container">
 
-    <!-- PROFILE HERO -->
+
+    <!-- BACK -->
+
+    <a
+        href="{% url 'find_professionals' %}"
+        class="back-top"
+    >
+        ← Back to Professionals
+    </a>
+
+
+    <!-- HERO -->
 
     <section class="profile-hero">
 
         <div class="profile-hero-inner">
 
 
-            <!-- IMAGE -->
-
-            <div>
-
-                {% if provider.profile_image %}
-
-                    <img
-                        src="{{ provider.profile_image.url }}"
-                        class="profile-photo"
-                        alt="{{ provider.business_name }}"
-                    >
-
-                {% else %}
-
-                    <div class="profile-placeholder">
-                        👤
-                    </div>
-
-                {% endif %}
-
-            </div>
+            <div class="profile-left">
 
 
-            <!-- INFORMATION -->
+                <div class="profile-image">
 
-            <div>
+                    {% if provider.profile_image %}
 
-                {% if provider.is_verified %}
+                        <img
+                            src="{{ provider.profile_image.url }}"
+                            alt="{{ provider.business_name }}"
+                        >
 
-                    <span class="verified-badge">
-                        ✓ VERIFIED PROFESSIONAL
-                    </span>
+                    {% else %}
 
-                {% endif %}
-
-
-                <h1 class="profile-name">
-                    {{ provider.business_name }}
-                </h1>
-
-
-                <div class="profile-location">
-                    📍 {{ provider.location }}
-                </div>
-
-
-                <div class="profile-meta">
-
-                    <span>
-                        💼 {{ provider.experience_years }}
-                        year{{ provider.experience_years|pluralize }}
-                        experience
-                    </span>
-
-                    <span>
-                        📅 Available for events
-                    </span>
-
-                    <span>
-                        ✓ Professional Service
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- ACTION -->
-
-            <div class="hero-action">
-
-                {% with first_service=services|first %}
-
-                    {% if first_service %}
-
-                        <div class="price-label">
-                            Starting from
-                        </div>
-
-                        <div class="hero-price">
-                            ₹{{ first_service.starting_price|floatformat:0 }}
+                        <div class="profile-placeholder">
+                            📸
                         </div>
 
                     {% endif %}
 
-                {% endwith %}
+                </div>
 
 
-                {% if user.is_authenticated and user != provider.user %}
+                <div class="profile-main">
 
-                    <a
-                        href="{% url 'contact_professional' provider.id %}"
-                        class="contact-btn"
-                    >
-                        📩 Send Enquiry
-                    </a>
 
-                {% elif not user.is_authenticated %}
+                    {% if provider.is_verified %}
 
-                    <a
-                        href="{% url 'login' %}"
-                        class="contact-btn"
-                    >
-                        Login to Contact
-                    </a>
+                        <div class="verified">
+                            ✓ VERIFIED PROFESSIONAL
+                        </div>
 
-                {% endif %}
+                    {% endif %}
+
+
+                    <h1>
+                        {{ provider.business_name }}
+                    </h1>
+
+
+                    <div class="profile-meta">
+
+                        <span>
+                            📍 {{ provider.location }}
+                        </span>
+
+                        <span>
+                            💼 {{ provider.experience_years }}+ years experience
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{% url 'contact_professional' provider.id %}"
+                class="hero-contact"
+            >
+                💬 Contact Professional
+            </a>
+
+        </div>
+
+
+        <!-- QUICK STATS -->
+
+        <div class="quick-stats">
+
+            <div class="quick-stat">
+
+                <strong>
+                    {{ provider.experience_years }}+
+                </strong>
+
+                <span>
+                    Years Experience
+                </span>
+
+            </div>
+
+
+            <div class="quick-stat">
+
+                <strong>
+                    {{ services|length }}
+                </strong>
+
+                <span>
+                    Services
+                </span>
+
+            </div>
+
+
+            <div class="quick-stat">
+
+                <strong>
+                    {{ packages|length }}
+                </strong>
+
+                <span>
+                    Packages
+                </span>
+
+            </div>
+
+
+            <div class="quick-stat">
+
+                <strong>
+                    ✓
+                </strong>
+
+                <span>
+                    Verified
+                </span>
 
             </div>
 
@@ -524,66 +668,146 @@
     </section>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- CONTENT -->
 
-    <div class="profile-container">
+    <div class="profile-layout">
 
 
         <!-- LEFT -->
 
-        <main>
+        <div>
 
 
             <!-- ABOUT -->
 
-            <section class="content-card">
+            <section class="card">
 
-                <h2>
-                    About {{ provider.business_name }}
-                </h2>
+                <div class="card-title">
 
-                <p class="about-text">
+                    <h2>
+                        About {{ provider.business_name }}
+                    </h2>
 
-                    {% if provider.description %}
+                </div>
 
+
+                {% if provider.description %}
+
+                    <p class="description">
                         {{ provider.description }}
+                    </p>
 
-                    {% else %}
+                {% else %}
 
-                        This professional has not added a business
-                        description yet.
+                    <p class="description">
+                        Professional event services tailored
+                        to make your special occasion memorable.
+                    </p>
 
-                    {% endif %}
-
-                </p>
+                {% endif %}
 
             </section>
 
 
             <!-- SERVICES -->
 
-            <section class="content-card">
+            <section class="card">
 
-                <h2>
-                    Services
-                </h2>
+                <div class="card-title">
+
+                    <h2>
+                        🛠️ Services
+                    </h2>
+
+                    <span>
+                        {{ services|length }} available
+                    </span>
+
+                </div>
 
 
-                {% if services %}
+                <div class="service-list">
 
-                    <div class="service-list">
+                    {% for service in services %}
 
-                        {% for item in services %}
+                        <div class="service-item">
 
-                            <div class="service-item">
+                            <div class="service-name">
 
-                                <span class="service-name">
-                                    {{ item.service.name }}
+                                <span class="service-icon">
+                                    ✓
                                 </span>
 
-                                <span class="service-price">
-                                    ₹{{ item.starting_price|floatformat:0 }}
-                                </span>
+                                {{ service.service.name }}
+
+                            </div>
+
+
+                            <div class="service-price">
+                                Starting ₹{{ service.starting_price }}
+                            </div>
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                🛠️
+                            </div>
+
+                            No services added yet.
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+            <!-- PACKAGES -->
+
+            <section class="card">
+
+                <div class="card-title">
+
+                    <h2>
+                        💰 Packages
+                    </h2>
+
+                    <span>
+                        {{ packages|length }} available
+                    </span>
+
+                </div>
+
+
+                {% if packages %}
+
+                    <div class="package-grid">
+
+                        {% for package in packages %}
+
+                            <div class="package">
+
+                                <div class="package-label">
+                                    EVENT PACKAGE
+                                </div>
+
+                                <h3>
+                                    {{ package.name }}
+                                </h3>
+
+                                <p>
+                                    {{ package.description|truncatechars:150 }}
+                                </p>
+
+                                <div class="package-price">
+                                    ₹{{ package.price }}
+                                </div>
 
                             </div>
 
@@ -593,59 +817,14 @@
 
                 {% else %}
 
-                    <div class="empty-message">
-                        No services added yet.
-                    </div>
+                    <div class="empty">
 
-                {% endif %}
-
-            </section>
-
-
-            <!-- PACKAGES -->
-
-            <section class="content-card">
-
-                <h2>
-                    Packages
-                </h2>
-
-
-                {% if packages %}
-
-                    {% for package in packages %}
-
-                        <div class="package-card">
-
-                            <div class="package-top">
-
-                                <div class="package-name">
-                                    {{ package.name }}
-                                </div>
-
-                                <div class="package-price">
-                                    ₹{{ package.price|floatformat:0 }}
-                                </div>
-
-                            </div>
-
-
-                            {% if package.description %}
-
-                                <div class="package-description">
-                                    {{ package.description }}
-                                </div>
-
-                            {% endif %}
-
+                        <div class="empty-icon">
+                            💰
                         </div>
 
-                    {% endfor %}
-
-                {% else %}
-
-                    <div class="empty-message">
                         No packages available yet.
+
                     </div>
 
                 {% endif %}
@@ -655,11 +834,19 @@
 
             <!-- PORTFOLIO -->
 
-            <section class="content-card">
+            <section class="card">
 
-                <h2>
-                    Portfolio
-                </h2>
+                <div class="card-title">
+
+                    <h2>
+                        🎬 Portfolio
+                    </h2>
+
+                    <span>
+                        {{ portfolio|length }} works
+                    </span>
+
+                </div>
 
 
                 {% if portfolio %}
@@ -670,7 +857,8 @@
 
                             <div class="portfolio-item">
 
-                                {% if item.media_type == "image" and item.media_url %}
+
+                                {% if item.media_url %}
 
                                     <img
                                         src="{{ item.media_url }}"
@@ -680,22 +868,32 @@
                                 {% else %}
 
                                     <div class="portfolio-placeholder">
-
                                         {% if item.media_type == "video" %}
-
-                                            <div>🎥</div>
-
+                                            🎬
                                         {% else %}
-
-                                            <div>📸</div>
-
+                                            📸
                                         {% endif %}
-
-                                        {{ item.title }}
-
                                     </div>
 
                                 {% endif %}
+
+
+                                <div class="portfolio-info">
+
+                                    <strong>
+                                        {{ item.title }}
+                                    </strong>
+
+
+                                    {% if item.description %}
+
+                                        <p>
+                                            {{ item.description|truncatechars:70 }}
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
 
                             </div>
 
@@ -705,15 +903,22 @@
 
                 {% else %}
 
-                    <div class="empty-message">
-                        Portfolio will appear here when added.
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🖼️
+                        </div>
+
+                        Portfolio items will appear here.
+
                     </div>
 
                 {% endif %}
 
             </section>
 
-        </main>
+
+        </div>
 
 
         <!-- RIGHT SIDEBAR -->
@@ -721,145 +926,109 @@
         <aside>
 
 
-            <div class="info-card">
+            <div class="card sticky-card">
 
-                <h3>
-                    Professional Details
-                </h3>
+                <h2 class="contact-title">
+                    Ready to discuss your event?
+                </h2>
 
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Business
-                    </span>
-
-                    <span class="info-value">
-                        {{ provider.business_name }}
-                    </span>
-
-                </div>
+                <p class="contact-subtitle">
+                    Contact {{ provider.business_name }}
+                    directly to discuss your requirements,
+                    date, location and pricing.
+                </p>
 
 
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Location
-                    </span>
-
-                    <span class="info-value">
-                        📍 {{ provider.location }}
-                    </span>
-
-                </div>
+                <a
+                    href="{% url 'contact_professional' provider.id %}"
+                    class="contact-button"
+                >
+                    💬 Send Enquiry
+                </a>
 
 
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Service Area
-                    </span>
-
-                    <span class="info-value">
-
-                        {% if provider.service_area %}
-
-                            {{ provider.service_area }}
-
-                        {% else %}
-
-                            Available on request
-
-                        {% endif %}
-
-                    </span>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Experience
-                    </span>
-
-                    <span class="info-value">
-                        {{ provider.experience_years }}
-                        year{{ provider.experience_years|pluralize }}
-                    </span>
-
-                </div>
-
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Verification
-                    </span>
-
-                    <span class="info-value">
-
-                        {% if provider.is_verified %}
-
-                            ✓ Verified
-
-                        {% else %}
-
-                            Verification pending
-
-                        {% endif %}
-
-                    </span>
-
-                </div>
-
-
-                {% if user.is_authenticated and user != provider.user %}
-
-                    <a
-                        href="{% url 'contact_professional' provider.id %}"
-                        class="sidebar-contact"
-                    >
-                        📩 Contact Professional
-                    </a>
-
-                {% endif %}
+                <a
+                    href="{% url 'find_professionals' %}"
+                    class="outline-button"
+                >
+                    ← Find Other Professionals
+                </a>
 
             </div>
 
 
-            <!-- QUICK SERVICES -->
+            <!-- SERVICE AREA -->
 
-            <div class="info-card">
+            <div class="card">
 
-                <h3>
-                    Services Offered
-                </h3>
+                <div class="card-title">
+
+                    <h2>
+                        📍 Service Area
+                    </h2>
+
+                </div>
 
 
-                {% for item in services %}
+                <div class="area-box">
 
-                    <div class="info-row">
-
-                        <span class="info-value">
-                            ✓ {{ item.service.name }}
-                        </span>
-
+                    <div class="area-icon">
+                        📍
                     </div>
 
-                {% empty %}
 
-                    <div class="empty-message">
-                        No services listed.
-                    </div>
+                    {% if provider.service_area %}
 
-                {% endfor %}
+                        {{ provider.service_area }}
+
+                    {% else %}
+
+                        {{ provider.location }}
+
+                    {% endif %}
+
+                </div>
 
             </div>
+
+
+            <!-- TRUST CARD -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <h2>
+                        🛡️ Why choose this professional?
+                    </h2>
+
+                </div>
+
+
+                <div class="description">
+
+                    ✓ Verified Event Professional
+                    <br><br>
+
+                    ✓ Direct Communication
+                    <br><br>
+
+                    ✓ Service & Package Details
+                    <br><br>
+
+                    ✓ Portfolio Available
+
+                </div>
+
+            </div>
+
 
         </aside>
 
+
     </div>
+
+</div>
 
 </div>
 

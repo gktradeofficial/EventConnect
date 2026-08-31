@@ -1,82 +1,382 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block title %}Edit Package | EventSetu{% endblock %}
 
-    <title>Edit Package - EventConnect</title>
+{% block content %}
 
-</head>
+<style>
 
-<body>
+    .edit-page {
+        min-height: calc(100vh - 70px);
+        background:
+            radial-gradient(circle at top left, rgba(245,158,11,.10), transparent 30%),
+            #f6f7fb;
+        padding: 45px 20px 80px;
+    }
 
-    <h1>Edit Package</h1>
+    .edit-wrapper {
+        max-width: 760px;
+        margin: auto;
+    }
 
-    <form method="POST">
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        text-decoration: none;
+        color: #6b7280;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
 
-        {% csrf_token %}
+    .back-link:hover {
+        color: #d97706;
+    }
 
-        <label>Package Name</label>
-        <br>
+    .form-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 12px 35px rgba(0,0,0,.06);
+    }
 
-        <input
-            type="text"
-            name="name"
-            value="{{ package.name }}"
-            required
+    .form-header {
+        margin-bottom: 28px;
+    }
+
+    .form-header h1 {
+        font-size: 30px;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .form-header p {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .package-preview {
+        background: linear-gradient(135deg, #111827, #1f2937);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 28px;
+    }
+
+    .package-preview span {
+        display: block;
+        color: #9ca3af;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .package-preview strong {
+        font-size: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    label {
+        display: block;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .required {
+        color: #ef4444;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #d1d5db;
+        background: white;
+        border-radius: 11px;
+        padding: 13px 14px;
+        font-family: inherit;
+        font-size: 14px;
+        color: #111827;
+        outline: none;
+        transition: .2s;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 3px rgba(245,158,11,.12);
+    }
+
+    textarea {
+        min-height: 140px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .status-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        padding: 15px;
+        border-radius: 11px;
+    }
+
+    .status-box input {
+        width: 18px;
+        height: 18px;
+        accent-color: #f59e0b;
+        cursor: pointer;
+    }
+
+    .status-text strong {
+        display: block;
+        color: #111827;
+        font-size: 14px;
+    }
+
+    .status-text span {
+        color: #6b7280;
+        font-size: 12px;
+    }
+
+    .button-area {
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+        margin-top: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        text-decoration: none;
+        padding: 13px 20px;
+        border-radius: 10px;
+        font-weight: 800;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .cancel-btn {
+        border: 1px solid #d1d5db;
+        color: #374151;
+        background: white;
+    }
+
+    .cancel-btn:hover {
+        border-color: #f59e0b;
+        color: #d97706;
+    }
+
+    .save-btn {
+        border: none;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #111827;
+        box-shadow: 0 7px 18px rgba(245,158,11,.22);
+    }
+
+    .save-btn:hover {
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+
+        .edit-page {
+            padding: 30px 15px 60px;
+        }
+
+        .form-card {
+            padding: 22px;
+        }
+
+        .form-header h1 {
+            font-size: 25px;
+        }
+
+        .button-area {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+    }
+
+</style>
+
+
+<div class="edit-page">
+
+    <div class="edit-wrapper">
+
+        <a
+            href="{% url 'professional_dashboard' %}"
+            class="back-link"
         >
+            ← Back to Dashboard
+        </a>
 
-        <br><br>
 
-        <label>Description</label>
-        <br>
+        <div class="form-card">
 
-        <textarea
-            name="description"
-            rows="5"
-        >{{ package.description }}</textarea>
+            <div class="form-header">
 
-        <br><br>
+                <h1>
+                    ✏️ Edit Package
+                </h1>
 
-        <label>Price</label>
-        <br>
+                <p>
+                    Update your package details, pricing and availability.
+                </p>
 
-        <input
-            type="number"
-            name="price"
-            value="{{ package.price }}"
-            step="0.01"
-            min="0"
-            required
-        >
+            </div>
 
-        <br><br>
 
-        <label>
+            <div class="package-preview">
 
-            <input
-                type="checkbox"
-                name="is_active"
-                {% if package.is_active %}checked{% endif %}
-            >
+                <span>
+                    Currently editing
+                </span>
 
-            Active Package
+                <strong>
+                    {{ package.name }}
+                </strong>
 
-        </label>
+            </div>
 
-        <br><br>
 
-        <button type="submit">
-            Save Changes
-        </button>
+            <form method="POST">
 
-    </form>
+                {% csrf_token %}
 
-    <br>
 
-    <a href="{% url 'professional_dashboard' %}">
-        ← Back to Dashboard
-    </a>
+                <div class="form-group">
 
-</body>
+                    <label for="name">
+                        Package Name
+                        <span class="required">*</span>
+                    </label>
 
-</html>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ package.name }}"
+                        placeholder="e.g. Premium Wedding Package"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Package Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Describe what is included in this package..."
+                    >{{ package.description }}</textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="price">
+                        Package Price
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value="{{ package.price }}"
+                        min="0"
+                        step="0.01"
+                        placeholder="Enter package price"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Package Status
+                    </label>
+
+                    <div class="status-box">
+
+                        <input
+                            type="checkbox"
+                            id="is_active"
+                            name="is_active"
+                            {% if package.is_active %}checked{% endif %}
+                        >
+
+                        <div class="status-text">
+
+                            <strong>
+                                Active Package
+                            </strong>
+
+                            <span>
+                                Customers can see this package when it is active.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-area">
+
+                    <a
+                        href="{% url 'professional_dashboard' %}"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        💾 Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
