@@ -79,14 +79,14 @@
 
 
         .ec-logo {
-            font-size: 25px;
+            font-size: 40px;
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: -0.5px;
+            letter-spacing: normal;
         }
 
         .ec-logo span {
-            color: #f59e0b;
+            color: #3af50b;
         }
 
 
@@ -98,9 +98,9 @@
 
 
         .ec-nav a {
-            color: #cbd5e1;
+            color: #f6f6f6;
 
-            font-size: 14px;
+            font-size: 20px;
             font-weight: 600;
 
             padding: 10px 14px;
@@ -112,21 +112,57 @@
 
 
         .ec-nav a:hover {
-            color: #ffffff;
-            background: rgba(255,255,255,0.08);
+            color: #09eb0c;
+            background: rgba(14, 14, 14, 0.342);
         }
 
 
         .ec-nav .nav-primary {
-            background: #f59e0b;
-            color: #111827;
+            background: #020202;
+            color: #dddddf;
             margin-left: 6px;
         }
 
 
         .ec-nav .nav-primary:hover {
-            background: #fbbf24;
+            background: #02a912;
             color: #111827;
+        }
+
+        /* =========================
+            EVENTSETU LOGO GLOW
+        ========================= */
+
+        .ec-logo {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ec-logo::before {
+            content: "";
+            position: absolute;
+
+            width: 150px;
+            height: 38px;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            background: #4109e8;
+
+            filter: blur(25px);
+
+            opacity: 0.50;
+
+            border-radius: 50%;
+
+            z-index: -1;
+        }
+
+        .ec-logo span {
+            color: #0bf54d;
         }
 
 
@@ -613,6 +649,14 @@
 
         }
 
+        .ec-nav a.active {
+            color: #ddff02;
+            background: #1a191851;
+            font-weight: normal;
+            border-radius: normal;
+            box-shadow: 0 4px 10px rgba(185, 225, 9, 0.379);
+        }
+
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -630,7 +674,7 @@
 <header class="ec-navbar">
 
     <a href="/" class="ec-logo">
-        Event<span>Connect</span>
+        Event<span>Setu</span>
     </a>
 
 
@@ -645,12 +689,18 @@
 
     <nav class="ec-nav" id="ecNav">
 
-        <a href="/">
+        <a
+            href="/"
+            class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+        >
             Home
         </a>
 
 
-        <a href="/professionals/">
+        <a
+            href="/professionals/"
+            class="{% if request.resolver_match.url_name == 'find_professionals' or request.resolver_match.url_name == 'professional_detail' or request.resolver_match.url_name == 'contact_professional' %}active{% endif %}"
+        >
             Find Professionals
         </a>
 
@@ -659,13 +709,19 @@
 
             {% if user.provider_profile %}
 
-                <a href="/professionals/dashboard/">
+                <a
+                    href="/professionals/dashboard/"
+                    class="{% if request.resolver_match.url_name == 'professional_dashboard' or request.resolver_match.url_name == 'edit_professional_profile' or request.resolver_match.url_name == 'add_service' or request.resolver_match.url_name == 'add_package' or request.resolver_match.url_name == 'add_portfolio' or request.resolver_match.url_name == 'add_availability' or request.resolver_match.url_name == 'edit_package' or request.resolver_match.url_name == 'edit_service' or request.resolver_match.url_name == 'edit_portfolio' or request.resolver_match.url_name == 'edit_availability' %}active{% endif %}"
+                >
                     Dashboard
                 </a>
 
             {% else %}
 
-                <a href="/accounts/dashboard/">
+                <a
+                    href="/accounts/dashboard/"
+                    class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+                >
                     Dashboard
                 </a>
 
@@ -678,7 +734,10 @@
 
         {% else %}
 
-            <a href="/accounts/login/">
+            <a
+                href="/accounts/login/"
+                class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}"
+            >
                 Login
             </a>
 
@@ -745,7 +804,7 @@
         <div>
 
             <div class="ec-logo">
-                Event<span>Connect</span>
+                Event<span>Setu</span>
             </div>
 
             <br>
