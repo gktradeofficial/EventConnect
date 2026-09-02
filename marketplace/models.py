@@ -191,3 +191,28 @@ class Enquiry(models.Model):
 
     def __str__(self):
         return f"{self.customer.username} → {self.provider.business_name}"
+
+class Review(models.Model):
+
+    provider = models.ForeignKey(
+        ProviderProfile,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+
+    customer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='given_reviews'
+    )
+
+    rating = models.PositiveIntegerField()
+
+    comment = models.TextField(blank=True)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return f"{self.provider.business_name} - {self.rating}"

@@ -9,6 +9,7 @@ from .models import (
     PortfolioItem,
     Availability,
     Enquiry,
+    Review,
 )
 
 
@@ -136,4 +137,26 @@ class EnquiryAdmin(admin.ModelAdmin):
         'customer__username',
         'provider__business_name',
         'event_location',
+    )
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'provider',
+        'customer',
+        'rating',
+        'created_at',
+    )
+
+    list_filter = (
+        'rating',
+        'created_at',
+    )
+
+    search_fields = (
+        'provider__business_name',
+        'customer__username',
+        'comment',
     )

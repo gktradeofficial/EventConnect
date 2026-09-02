@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Avg
+from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
 
 from .models import (ProviderProfile, Service, Enquiry, 
     ProviderService, Package, PortfolioItem,
-    Availability 
+    Availability, Review 
 )
 
 def find_professionals(request):
@@ -65,6 +66,19 @@ def professional_detail(request, provider_id):
         is_verified=True
     )
 
+    reviews = provider.reviews.select_related(
+        'customer'
+    ).order_by('-created_at')
+
+    average_rating = reviews.aggregate(
+        avg=Avg('rating')
+    )['avg']
+
+    if average_rating:
+        average_rating = round(average_rating, 1)
+    else:
+        average_rating = 0
+
     return render(
         request,
         'marketplace/professional_detail.html',
@@ -77,6 +91,7 @@ def professional_detail(request, provider_id):
             'portfolio': provider.portfolio.all()
         }
     )
+
 
 
 @login_required
@@ -746,3 +761,44 @@ def delete_portfolio(request, portfolio_id):
 
     return redirect('professional_dashboard')
 
+
+def add_review(request, provider_id):
+
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    provider = get_object_or_404(
+        ProviderProfile,
+        id=provider_id
+    )
+
+    if request.method == 'POST':
+
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+
+            review = form.save(commit=False)
+
+            review.provider = provider
+            review.customer = request.user
+
+            review.save()
+
+            return redirect(
+                'professional_detail',
+                provider_id=provider.id
+            )
+
+    else:
+
+        form = ReviewForm()
+
+    return render(
+        request,
+        'marketplace/add_review.html',
+        {
+            'form': form,
+            'provider': provider,
+        }
+    )

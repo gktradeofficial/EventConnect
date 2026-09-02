@@ -106,11 +106,6 @@ urlpatterns = [
         name='delete_service'
     ),
 
-    path(
-        'portfolio/<int:portfolio_id>/edit/',
-        views.edit_portfolio,
-        name='edit_portfolio'
-    ),
 
     path(
         'availability/<int:availability_id>/edit/',
@@ -128,12 +123,18 @@ urlpatterns = [
         'portfolio/<int:portfolio_id>/edit/',
         views.edit_portfolio,
         name='edit_portfolio'
-),
+    ),
 
     path(
         'portfolio/<int:portfolio_id>/delete/',
         views.delete_portfolio,
         name='delete_portfolio'
-),
+    ),
+
+   path(
+        '<int:provider_id>/review/',
+        views.add_review,
+        name='add_review'
+    ),
 
 ]

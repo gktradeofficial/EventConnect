@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get(
     'django-insecure-0-8&w0cp(^t26#+c-67v#3_yfxou^m#ffpg6q_(atve=w%a$8g'
 )
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'eventconnect-jtap.onrender.com',

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}
+Review {{ provider.business_name }} — EventSetu
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+.review-page {
+    min-height: 70vh;
+    padding: 70px 20px;
+    background: #f8fafc;
+}
+
+.review-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.review-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    padding: 35px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.review-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.review-title h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+.review-title p {
+    color: #6b7280;
+}
+
+.provider-name {
+    color: #d97706;
+    font-weight: 800;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.form-control {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: .2s;
+}
+
+.form-control:focus {
+    border-color: #f59e0b;
+
+    box-shadow:
+        0 0 0 3px rgba(245,158,11,0.12);
+}
+
+.submit-review {
+    width: 100%;
+
+    border: none;
+
+    background: #f59e0b;
+    color: #111827;
+
+    padding: 14px;
+
+    border-radius: 11px;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.submit-review:hover {
+    background: #d97706;
+    color: white;
+
+    transform: translateY(-1px);
+}
+
+.back-link {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 18px;
+
+    color: #6b7280;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.back-link:hover {
+    color: #d97706;
+}
+
+.error-message {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="review-page">
+
+    <div class="review-container">
+
+        <div class="review-card">
+
+            <div class="review-title">
+
+                <h1>
+                    ⭐ Write a Review
+                </h1>
+
+                <p>
+                    Share your experience with
+                    <span class="provider-name">
+                        {{ provider.business_name }}
+                    </span>
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.rating.id_for_label }}">
+                        Your Rating
+                    </label>
+
+                    {{ form.rating }}
+
+                    {% if form.rating.errors %}
+
+                        <div class="error-message">
+                            {{ form.rating.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="{{ form.comment.id_for_label }}">
+                        Your Review
+                    </label>
+
+                    {{ form.comment }}
+
+                    {% if form.comment.errors %}
+
+                        <div class="error-message">
+                            {{ form.comment.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-review"
+                >
+                    ⭐ Submit Review
+                </button>
+
+            </form>
+
+
+            <a
+                href="{% url 'professional_detail' provider.id %}"
+                class="back-link"
+            >
+                ← Back to Professional
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
